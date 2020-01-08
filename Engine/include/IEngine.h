@@ -6,9 +6,16 @@
 
 namespace Engine
 {
-	struct Init_Info {
+	struct Sub_Systems {
 		std::shared_ptr<Resources::IResourceArchive> resource_archive;
 		std::shared_ptr<Resources::IResourceHandler> resource_handler;
+	};
+	struct Managers {
+
+	};
+	struct Init_Info {
+		Sub_Systems sub_systems;
+		Managers managers;
 	};
 
 	class IEngine 

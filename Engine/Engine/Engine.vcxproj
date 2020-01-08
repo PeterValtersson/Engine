@@ -99,6 +99,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_ENGINE_EXPORT_</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -111,6 +112,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_ENGINE_EXPORT_</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -125,6 +127,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_ENGINE_EXPORT_</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,6 +144,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_ENGINE_EXPORT_</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -157,6 +161,17 @@
     <ClInclude Include="..\include\DLL_Export.h" />
     <ClInclude Include="..\include\IEngine.h" />
     <ClInclude Include="Engine.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Resource-Handler\ResourceHandler\ResourceArchive\ResourceArchive.vcxproj">
+      <Project>{eb665cd1-efa4-419b-b6af-882e5bcdb66e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Resource-Handler\ResourceHandler\ResourceHandler\ResourceHandler.vcxproj">
+      <Project>{bed7b51d-7499-4f9e-a74f-3d66d316dbab}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Utilities\Utilities\Profiler\Profiler.vcxproj">
+      <Project>{bae4cf46-4926-4052-a0b5-290947489c07}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
