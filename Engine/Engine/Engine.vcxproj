@@ -73,25 +73,25 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Build/$(Configuration)/$(Platform)/</OutDir>
     <IntDir>$(ProjectDir)Intermediate/$(Configuration)/$(Platform)/</IntDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)../../Utilities/Utilities/Include;$(SolutionDir)../../Engine/Engine/include;$(SolutionDir)../../Resource-Handler\ResourceHandler/include</IncludePath>
+    <IncludePath>$(SolutionDir)../../Renderer/Renderer/Include/;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)../../Utilities/Utilities/Include;$(SolutionDir)../../Engine/Engine/include;$(SolutionDir)../../Resource-Handler\ResourceHandler/include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Build/$(Configuration)/$(Platform)/</OutDir>
     <IntDir>$(ProjectDir)Intermediate/$(Configuration)/$(Platform)/</IntDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)../../Utilities/Utilities/Include;$(SolutionDir)../../Engine/Engine/include;$(SolutionDir)../../Resource-Handler\ResourceHandler/include</IncludePath>
+    <IncludePath>$(SolutionDir)../../Renderer/Renderer/Include/;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)../../Utilities/Utilities/Include;$(SolutionDir)../../Engine/Engine/include;$(SolutionDir)../../Resource-Handler\ResourceHandler/include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Build/$(Configuration)/$(Platform)/</OutDir>
     <IntDir>$(ProjectDir)Intermediate/$(Configuration)/$(Platform)/</IntDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)../../Utilities/Utilities/Include;$(SolutionDir)../../Engine/Engine/include;$(SolutionDir)../../Resource-Handler\ResourceHandler/include</IncludePath>
+    <IncludePath>$(SolutionDir)../../Renderer/Renderer/Include/;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)../../Utilities/Utilities/Include;$(SolutionDir)../../Engine/Engine/include;$(SolutionDir)../../Resource-Handler\ResourceHandler/include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Build/$(Configuration)/$(Platform)/</OutDir>
     <IntDir>$(ProjectDir)Intermediate/$(Configuration)/$(Platform)/</IntDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)../../Utilities/Utilities/Include;$(SolutionDir)../../Engine/Engine/include;$(SolutionDir)../../Resource-Handler\ResourceHandler/include</IncludePath>
+    <IncludePath>$(SolutionDir)../../Renderer/Renderer/Include/;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)../../Utilities/Utilities/Include;$(SolutionDir)../../Engine/Engine/include;$(SolutionDir)../../Resource-Handler\ResourceHandler/include</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -163,6 +163,9 @@
     <ClInclude Include="Engine.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Renderer\Renderer\Renderer\Renderer.vcxproj">
+      <Project>{ff7b443e-8ce6-45f7-892c-b4f2a67fef18}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Resource-Handler\ResourceHandler\ResourceArchive\ResourceArchive.vcxproj">
       <Project>{eb665cd1-efa4-419b-b6af-882e5bcdb66e}</Project>
     </ProjectReference>

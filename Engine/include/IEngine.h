@@ -3,12 +3,14 @@
 #pragma once
 #include "DLL_Export.h"
 #include <IResourceHandler.h>
+#include <Graphics/Renderer_Interface.h>
 
 namespace Engine
 {
 	struct Sub_Systems {
-		std::shared_ptr<Resources::IResourceArchive> resource_archive;
-		std::shared_ptr<Resources::IResourceHandler> resource_handler;
+		std::shared_ptr<Graphics::Renderer_Interface>	renderer;
+		std::shared_ptr<Resources::IResourceArchive>	resource_archive;
+		std::shared_ptr<Resources::IResourceHandler>	resource_handler;
 	};
 	struct Managers {
 

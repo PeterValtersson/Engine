@@ -9,6 +9,8 @@ Engine::Engine::Engine( Init_Info init_info ) : sub_systems( init_info.sub_syste
 
 void Engine::Engine::init_sub_systems()
 {
+	if ( !sub_systems.renderer )
+		init_renderer();
 	if ( !sub_systems.resource_archive )
 		init_resource_archive();
 	if ( !sub_systems.resource_handler )
@@ -18,6 +20,11 @@ void Engine::Engine::init_sub_systems()
 
 void Engine::Engine::init_managers()
 {}
+
+void Engine::Engine::init_renderer()
+{
+	sub_systems.renderer = Graphics::Renderer_Interface::Create_Renderer( Graphics::Renderer_Backend::DIRECTX11, {} );
+}
 
 void Engine::Engine::init_resource_archive()
 {

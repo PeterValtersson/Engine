@@ -11,6 +11,7 @@ namespace Engine
 		void init_sub_systems();
 		void init_managers();
 
+		void init_renderer();
 		void init_resource_archive();
 		void init_resource_handler();
 
