@@ -23,7 +23,7 @@ namespace Engine
 	class IEngine 
 	{
 	public:
-		DECLSPEC_ENGINE static std::shared_ptr<IEngine> create( Init_Info init_info );
+		DECLSPEC_ENGINE static std::unique_ptr<IEngine> create( Init_Info init_info );
 	protected:
 
 
