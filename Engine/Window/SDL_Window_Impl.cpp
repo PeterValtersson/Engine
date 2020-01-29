@@ -124,44 +124,79 @@ void* Window::SDL_Window_Impl::GetWindowImplementation() noexcept
 
 bool Window::SDL_Window_Impl::ButtonDown( ActionButton actionButton ) const noexcept
 {
-	return GetKeyState( actionButton ) & KeyState::DOWN;
+	return flag_has( GetKeyState( actionButton ), KeyState::DOWN );
 }
 
 bool Window::SDL_Window_Impl::ButtonPressed( ActionButton actionButton ) const noexcept
 {
-	return false;
+	auto state = GetKeyState( actionButton );
+	return !( state ^ KeyState::PRESSED ) || *( state & KeyState::DOUBLE );
 }
 
 bool Window::SDL_Window_Impl::ButtonUp( ActionButton actionButton ) const noexcept
 {
-	return false;
+	return *( GetKeyState( actionButton ) & KeyState::UP );
 }
 
 bool Window::SDL_Window_Impl::ButtonDouble( ActionButton actionButton ) const noexcept
 {
-	return false;
+	return *( GetKeyState( actionButton ) & KeyState::DOUBLE );
 }
 
 void Window::SDL_Window_Impl::GetMousePos( int& x, int& y ) const noexcept
-{}
+{
+	x = curMouseX;
+	y = curMouseY;
+}
 
 void Window::SDL_Window_Impl::ToggleCursor( bool on ) noexcept
-{}
+{
+	if ( on )
+		while ( ShowCursor( on ) < 0 ) {}
+	else
+		while ( ShowCursor( on ) >= 0 ) {}
+}
 
 void Window::SDL_Window_Impl::SetWindowTitle( const std::string& title ) noexcept
-{}
-
-Resolution Window::SDL_Window_Impl::GetResolution() const noexcept
 {
-	return Resolution();
+	init_info.windowTitle = title;
+	SDL_SetWindowTitle( window, title.c_str() );
+}
+
+Window::Resolution Window::SDL_Window_Impl::GetResolution() const noexcept
+{
+	return init_info.resolution;
 }
 
 void Window::SDL_Window_Impl::MapActionButton( ActionButton actionButton, KeyCode key )
-{}
-
-bool Window::SDL_Window_Impl::SetWindowInfo( const InitializationInfo& info )
 {
-	return false;
+	keyToAction[keyMapping[key]].push_back( actionButton );
+}
+
+void Window::SDL_Window_Impl::SetWindowInfo( const InitializationInfo& info )
+{
+	bool changed = false;
+	if ( init_info.resolution.height != info.resolution.height )
+	{
+		init_info.resolution.height = info.resolution.height;
+		changed = true;
+	}
+	if ( init_info.resolution.width != info.resolution.width )
+	{
+		init_info.resolution.width = info.resolution.width;
+		changed = true;
+	}
+	if ( init_info.fullScreen != info.fullScreen )
+	{
+		init_info.fullScreen = info.fullScreen;
+		uint32_t createFlags = SDL_WINDOW_SHOWN | ( init_info.fullScreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0 );
+		SDL_SetWindowFullscreen( window, createFlags );
+	}
+
+	if ( changed == true && init_info.fullScreen == false )
+	{
+		SDL_SetWindowSize( window, init_info.resolution.width, init_info.resolution.height );
+	}
 }
 
 float Window::SDL_Window_Impl::GetDelta() const noexcept
@@ -170,9 +205,139 @@ float Window::SDL_Window_Impl::GetDelta() const noexcept
 }
 
 void Window::SDL_Window_Impl::EventSwitch( SDL_Event ev ) noexcept
-{}
-
-uint32_t Window::SDL_Window_Impl::GetKeyState( ActionButton actionButton ) const noexcept
 {
-	return uint32_t();
+	switch ( ev.type )
+	{
+	case SDL_KEYUP:	// if type is KeyUp
+	{
+		const auto state = keyToAction.find( ev.key.keysym.sym );
+		if ( state != keyToAction.end() )	// if key is bound sets its state
+		{
+			for ( auto& k : state->second )
+			{
+				actionToKeyState[k] = KeyState::UP;
+				actionToKeyStateLastTime[k] = std::chrono::high_resolution_clock::now();
+			}
+
+		}
+
+		break;
+	}
+	case SDL_KEYDOWN:	// if type is KeyDown
+	{
+		auto nt = std::chrono::high_resolution_clock::now();
+
+		const auto state = keyToAction.find( ev.key.keysym.sym );
+		if ( state != keyToAction.end() )	// if key is bound sets its state
+		{
+			for ( auto& k : state->second )
+			{
+				if ( !( actionToKeyState[k] & KeyState::DOWN ) )
+				{
+					actionToKeyState[k] = KeyState::PRESSED;
+
+					auto const find = actionToKeyStateLastTime.find( k );
+					if ( find != actionToKeyStateLastTime.end() )
+					{
+						auto diff = std::chrono::duration<float, std::milli>( nt - actionToKeyStateLastTime[k] ).count();
+						if ( diff < 300 )
+						{
+							actionToKeyState[k] |= KeyState::DOUBLE;
+						}
+					}
+
+					//auto pressCallbacks = actionToKeyPressCallback.find( k );
+					//if ( pressCallbacks != actionToKeyPressCallback.end() )
+					//{
+					//	for ( auto& cb : pressCallbacks->second )
+					//		cb();
+					//}
+				}
+				/*auto downCallbacks = actionToKeyDownCallback.find( k );
+				if ( downCallbacks != actionToKeyDownCallback.end() )
+				{
+					for ( auto& cb : downCallbacks->second )
+						cb();
+				}*/
+			}
+
+		}
+		break;
+	}
+	case SDL_MOUSEMOTION:	// if type is MouseMotion
+	{
+		curMouseX = ev.motion.x;
+		curMouseY = ev.motion.y;
+		relMouseX = ev.motion.xrel;
+		relMouseY = ev.motion.yrel;
+	/*	for ( auto& cb : mouseMotionCallbacks )
+			cb( relMouseX, relMouseY, curMouseX, curMouseY );*/
+		break;
+	}
+	case SDL_MOUSEBUTTONDOWN:	// if type is MouseButtonDown
+	{
+		if ( ev.button.button == SDL_BUTTON_LEFT )
+		{
+
+			mouseLeftDown = true;
+		}
+		else if ( ev.button.button == SDL_BUTTON_RIGHT )
+		{
+			mouseRightDown = true;
+		}
+		const auto state = keyToAction.find( ev.button.button );
+		if ( state != keyToAction.end() )
+		{
+			for ( auto& k : state->second )
+				if ( !( actionToKeyState[k] & KeyState::DOWN ) )
+				{
+					actionToKeyState[k] = KeyState::PRESSED;
+				}
+		}
+		break;
+	}
+	case SDL_MOUSEBUTTONUP:	// if type is MouseButtonUP
+	{
+		const auto state = keyToAction.find( ev.button.button );
+		if ( state != keyToAction.end() )
+		{
+			for ( auto& k : state->second )
+			{
+				/*auto mouseClickCallbacks = actionToMouseClickCallback.find( k );
+				if ( mouseClickCallbacks != actionToMouseClickCallback.end() )
+				{
+					for ( auto& cb : mouseClickCallbacks->second )
+						cb( curMouseX, curMouseY );
+				}*/
+				actionToKeyState[k] = KeyState::UP;
+			}
+
+
+
+		}
+		if ( ev.button.button == SDL_BUTTON_LEFT )
+		{
+			mouseLeftDown = false;
+		}
+		else if ( ev.button.button == SDL_BUTTON_RIGHT )
+		{
+			mouseRightDown = false;
+		}
+		break;
+	}
+	default:
+	{
+		break;
+	}
+	}
+}
+
+Window::KeyState Window::SDL_Window_Impl::GetKeyState( ActionButton actionButton ) const noexcept
+{
+	//Find which KeyCode actionbutton is mapped to
+	if ( const auto k = actionToKeyState.find( actionButton ); k != actionToKeyState.end() )
+		return k->second;
+
+	return KeyState::NIL;
+
 }

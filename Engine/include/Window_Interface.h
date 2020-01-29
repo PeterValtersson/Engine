@@ -6,19 +6,24 @@
 #include <memory>
 #include <stdint.h>
 #include <string>
+#include <Utilities/ErrorHandling.h>
 
 namespace Window
 {
-	struct Resolution{
+	struct Could_Not_Create_Window : public Utilities::Exception {
+		Could_Not_Create_Window( std::string_view  what ) : Utilities::Exception( what ) {}
+	};
+
+	struct Resolution {
 		uint32_t width;
 		uint32_t height;
 	};
-	enum class Window_Type{
+	enum class Window_Type {
 		SDL,
 		OpenVR
 	};
 
-	struct InitializationInfo{
+	struct InitializationInfo {
 		std::string windowTitle = "";
 		bool fullScreen = false;
 		Resolution resolution = { 1280, 720 };
@@ -26,7 +31,7 @@ namespace Window
 	};
 	typedef uint32_t ActionButton; // Defined by the user.
 
-	enum KeyCode{
+	enum KeyCode {
 		KeyEscape,
 		KeyF1,
 		KeyF2,
@@ -218,7 +223,7 @@ namespace Window
 			KeyCount_
 	};
 
-	class Window_Interface{
+	class Window_Interface {
 	public:
 		DECLSPEC_WINDOW static std::shared_ptr<Window_Interface> create_window( Window_Type type, const InitializationInfo& init_info );
 
@@ -240,7 +245,7 @@ namespace Window
 		* @retval ptr Valid pointer on success
 		* @retval nullptr Nullptr if no such window exists.
 		*/
-		virtual void* GetWindowImplementation( )noexcept = 0;
+		virtual void* GetWindowImplementation()noexcept = 0;
 
 		/**
 			* @brief Checks whether or no the bound action button is down or not. An action button must be bound with MapActionButton before this method is called
@@ -292,7 +297,7 @@ namespace Window
 		 * @brief Returns the resolution of the window.
 		 */
 		virtual Resolution GetResolution() const noexcept = 0;
-	
+
 
 		/*@TODO Add method to unregister a single callback. Needs operator== for delegates for that. (OR returning handles to the callback but that's cumbersome)*/
 
@@ -318,14 +323,14 @@ namespace Window
 		* @retval true Returns true if changes has been done to size
 		* @retval false Returns false if no changed to size
 		*/
-		virtual bool SetWindowInfo( const InitializationInfo& info ) = 0;
+		virtual void SetWindowInfo( const InitializationInfo& info ) = 0;
 
 		/**
 		* @brief Gets delta time from window
 		*
 		* @retval float Returns frame delta time in seconds
 		*/
-		virtual float GetDelta() const noexcept= 0;
+		virtual float GetDelta() const noexcept = 0;
 	};
 
 }

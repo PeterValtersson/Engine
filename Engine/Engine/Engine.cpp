@@ -42,7 +42,9 @@ void Engine::Engine::init_window()
 
 void Engine::Engine::init_renderer()
 {
-	sub_systems.renderer = Graphics::Renderer_Interface::Create_Renderer( Graphics::Renderer_Backend::DIRECTX11, {} );
+	Graphics::RendererInitializationInfo ii;
+	ii.resolution = *( Graphics::Resolution* ) & sub_systems.window->GetResolution();
+	sub_systems.renderer = Graphics::Renderer_Interface::Create_Renderer( Graphics::Renderer_Backend::DIRECTX11, ii );
 }
 
 void Engine::Engine::init_resource_archive()

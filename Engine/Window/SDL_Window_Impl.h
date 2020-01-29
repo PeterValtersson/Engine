@@ -12,6 +12,15 @@
 
 namespace Window
 {
+	enum class KeyState : uint32_t {
+		NIL = 0,
+		DOWN = 1 << 1,
+		PRESSED = 3,
+		UP = 4,
+		DOUBLE = 1 << 4
+	};
+	ENUM_FLAGS( Window::KeyState );
+	 
 	class SDL_Window_Impl : public Window_Interface{
 	public:
 		SDL_Window_Impl( const InitializationInfo& init_info );
@@ -41,7 +50,7 @@ namespace Window
 
 		virtual void MapActionButton( ActionButton actionButton, KeyCode key ) override;
 
-		virtual bool SetWindowInfo( const InitializationInfo& info ) override;
+		virtual void SetWindowInfo( const InitializationInfo& info ) override;
 
 		virtual float GetDelta() const noexcept override;
 	private:
@@ -67,19 +76,12 @@ namespace Window
 		/**<Maps generic keys defined in IWindow.h to key codes of SDL implementation*/
 		std::map<KeyCode, uint32_t> keyMapping;
 
-		enum class KeyState : uint32_t{
-			NIL = 0,
-			DOWN = 1 << 1,
-			PRESSED = 3,
-			UP = 4,
-			DOUBLE = 1 << 4
-		}; 
-		ENUM_FLAGS( Window::SDL_Window_Impl::KeyState );
+		
 
 		/**<Maps action button to keystate (up, down, pressed)*/
-		std::map<ActionButton, uint32_t> actionToKeyState;
+		std::map<ActionButton, KeyState> actionToKeyState;
 		std::map<ActionButton, std::chrono::high_resolution_clock::time_point> actionToKeyStateLastTime;
-		uint32_t GetKeyState( ActionButton actionButton ) const noexcept;
+		KeyState GetKeyState( ActionButton actionButton ) const noexcept;
 
 		Utilities::Time::Timer timer;
 	};
