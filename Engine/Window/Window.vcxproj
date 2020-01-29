@@ -73,31 +73,35 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Build/$(Configuration)/$(Platform)/</OutDir>
     <IntDir>$(ProjectDir)Intermediate/$(Configuration)/$(Platform)/</IntDir>
-    <IncludePath>$(SolutionDir)../../Utilities/Utilities/Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\..\Engine\Engine\include;$(SolutionDir)..\..\Engine\Engine\include\SDL2-2.0.10\include;$(SolutionDir)../../Utilities/Utilities/Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\..\Engine\Engine\include\SDL2-2.0.10\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Build/$(Configuration)/$(Platform)/</OutDir>
     <IntDir>$(ProjectDir)Intermediate/$(Configuration)/$(Platform)/</IntDir>
-    <IncludePath>$(SolutionDir)../../Utilities/Utilities/Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\..\Engine\Engine\include;$(SolutionDir)..\..\Engine\Engine\include\SDL2-2.0.10\include;$(SolutionDir)../../Utilities/Utilities/Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\..\Engine\Engine\include\SDL2-2.0.10\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Build/$(Configuration)/$(Platform)/</OutDir>
     <IntDir>$(ProjectDir)Intermediate/$(Configuration)/$(Platform)/</IntDir>
-    <IncludePath>$(SolutionDir)../../Utilities/Utilities/Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\..\Engine\Engine\include;$(SolutionDir)..\..\Engine\Engine\include\SDL2-2.0.10\include;$(SolutionDir)../../Utilities/Utilities/Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\..\Engine\Engine\include\SDL2-2.0.10\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Build/$(Configuration)/$(Platform)/</OutDir>
     <IntDir>$(ProjectDir)Intermediate/$(Configuration)/$(Platform)/</IntDir>
-    <IncludePath>$(SolutionDir)../../Utilities/Utilities/Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\..\Engine\Engine\include;$(SolutionDir)..\..\Engine\Engine\include\SDL2-2.0.10\include;$(SolutionDir)../../Utilities/Utilities/Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\..\Engine\Engine\include\SDL2-2.0.10\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_WINDOW_EXPORT_</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -109,12 +113,13 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_WINDOW_EXPORT_;_WINDOW_EXPORT_</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -123,7 +128,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_WINDOW_EXPORT_;_WINDOW_EXPORT_</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -131,6 +136,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -139,7 +145,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_WINDOW_EXPORT_</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -150,6 +156,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="SDL_Window.cpp" />
+    <ClCompile Include="Window_Interface.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\DLL_Export_Window.h" />
+    <ClInclude Include="..\include\Window_Interface.h" />
+    <ClInclude Include="SDL_Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
