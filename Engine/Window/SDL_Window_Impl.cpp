@@ -2,15 +2,16 @@
 #include <SDL_syswm.h>
 #include <ctime>
 #include <Utilities/Profiler/Profiler.h>
-
+#pragma comment(lib, "SDL2.lib")
+#pragma comment(lib, "SDL2main.lib")
 Window::SDL_Window_Impl::SDL_Window_Impl( const InitializationInfo& init_info ) : curMouseX( 0 ), curMouseY( 0 ), relMouseX( 0 ), relMouseY( 0 ), init_info( init_info ), window( nullptr )
 {
-	if ( SDL_Init( SDL_INIT_VIDEO ) < 0 )
-		throw std::exception( "Failed to initialize SDL subsystem" );
+	/*if ( SDL_Init( SDL_INIT_VIDEO ) < 0 )
+		throw Could_Not_Create_Window( "Failed to initialize SDL subsystem" );
 	uint32_t createFlags = SDL_WINDOW_SHOWN | ( init_info.fullScreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0 );
 	window = SDL_CreateWindow( init_info.windowTitle.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, init_info.resolution.width, init_info.resolution.height, createFlags );
 	if ( window == nullptr )
-		throw std::exception( "Failed to create window." );
+		throw Could_Not_Create_Window( "Failed to create window." );*/
 
 	/* Annoying to type abstraction of SDL... */
 	keyMapping = {
@@ -201,11 +202,12 @@ void Window::SDL_Window_Impl::SetWindowInfo( const InitializationInfo& info )
 
 float Window::SDL_Window_Impl::GetDelta() const noexcept
 {
-	return 0.0f;
+	return timer.GetDelta();
 }
 
 void Window::SDL_Window_Impl::EventSwitch( SDL_Event ev ) noexcept
 {
+	PROFILE;
 	switch ( ev.type )
 	{
 	case SDL_KEYUP:	// if type is KeyUp
@@ -334,6 +336,7 @@ void Window::SDL_Window_Impl::EventSwitch( SDL_Event ev ) noexcept
 
 Window::KeyState Window::SDL_Window_Impl::GetKeyState( ActionButton actionButton ) const noexcept
 {
+	PROFILE;
 	//Find which KeyCode actionbutton is mapped to
 	if ( const auto k = actionToKeyState.find( actionButton ); k != actionToKeyState.end() )
 		return k->second;
