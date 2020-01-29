@@ -73,25 +73,25 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Build/$(Configuration)/$(Platform)/</OutDir>
     <IntDir>$(ProjectDir)Intermediate/$(Configuration)/$(Platform)/</IntDir>
-    <IncludePath>$(SolutionDir)../../Renderer/Renderer/Include/;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)../../Utilities/Utilities/Include;$(SolutionDir)../../Engine/Engine/include;$(SolutionDir)../../Resource-Handler\ResourceHandler/include</IncludePath>
+    <IncludePath>$(SolutionDir)../../EntityComponentSystem/EntityComponentSystem/Include/;$(SolutionDir)../../Renderer/Renderer/Include/;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)../../Utilities/Utilities/Include;$(SolutionDir)../../Engine/Engine/include;$(SolutionDir)../../Resource-Handler\ResourceHandler/include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Build/$(Configuration)/$(Platform)/</OutDir>
     <IntDir>$(ProjectDir)Intermediate/$(Configuration)/$(Platform)/</IntDir>
-    <IncludePath>$(SolutionDir)../../Renderer/Renderer/Include/;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)../../Utilities/Utilities/Include;$(SolutionDir)../../Engine/Engine/include;$(SolutionDir)../../Resource-Handler\ResourceHandler/include</IncludePath>
+    <IncludePath>$(SolutionDir)../../EntityComponentSystem/EntityComponentSystem/Include/;$(SolutionDir)../../Renderer/Renderer/Include/;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)../../Utilities/Utilities/Include;$(SolutionDir)../../Engine/Engine/include;$(SolutionDir)../../Resource-Handler\ResourceHandler/include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Build/$(Configuration)/$(Platform)/</OutDir>
     <IntDir>$(ProjectDir)Intermediate/$(Configuration)/$(Platform)/</IntDir>
-    <IncludePath>$(SolutionDir)../../Renderer/Renderer/Include/;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)../../Utilities/Utilities/Include;$(SolutionDir)../../Engine/Engine/include;$(SolutionDir)../../Resource-Handler\ResourceHandler/include</IncludePath>
+    <IncludePath>$(SolutionDir)../../EntityComponentSystem/EntityComponentSystem/Include/;$(SolutionDir)../../Renderer/Renderer/Include/;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)../../Utilities/Utilities/Include;$(SolutionDir)../../Engine/Engine/include;$(SolutionDir)../../Resource-Handler\ResourceHandler/include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Build/$(Configuration)/$(Platform)/</OutDir>
     <IntDir>$(ProjectDir)Intermediate/$(Configuration)/$(Platform)/</IntDir>
-    <IncludePath>$(SolutionDir)../../Renderer/Renderer/Include/;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)../../Utilities/Utilities/Include;$(SolutionDir)../../Engine/Engine/include;$(SolutionDir)../../Resource-Handler\ResourceHandler/include</IncludePath>
+    <IncludePath>$(SolutionDir)../../EntityComponentSystem/EntityComponentSystem/Include/;$(SolutionDir)../../Renderer/Renderer/Include/;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)../../Utilities/Utilities/Include;$(SolutionDir)../../Engine/Engine/include;$(SolutionDir)../../Resource-Handler\ResourceHandler/include</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -163,6 +163,9 @@
     <ClInclude Include="Engine.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\EntityComponentSystem\EntityComponentSystem\EntityComponentSystem\EntityComponentSystem.vcxproj">
+      <Project>{70e14de8-7ff0-4249-9b02-ed33116c837d}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Renderer\Renderer\Renderer\Renderer.vcxproj">
       <Project>{ff7b443e-8ce6-45f7-892c-b4f2a67fef18}</Project>
     </ProjectReference>
@@ -174,6 +177,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\Utilities\Utilities\Profiler\Profiler.vcxproj">
       <Project>{bae4cf46-4926-4052-a0b5-290947489c07}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Window\Window.vcxproj">
+      <Project>{32a997ee-35d4-4ec8-9ae6-417844f10337}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

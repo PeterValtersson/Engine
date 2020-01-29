@@ -18,7 +18,7 @@
     <ClCompile Include="Window_Interface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SDL_Window.cpp">
+    <ClCompile Include="SDL_Window_Impl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,7 +29,7 @@
     <ClInclude Include="..\include\DLL_Export_Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SDL_Window.h">
+    <ClInclude Include="SDL_Window_Impl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

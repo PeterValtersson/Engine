@@ -156,13 +156,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="SDL_Window.cpp" />
+    <ClCompile Include="SDL_Window_Impl.cpp" />
     <ClCompile Include="Window_Interface.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\DLL_Export_Window.h" />
     <ClInclude Include="..\include\Window_Interface.h" />
-    <ClInclude Include="SDL_Window.h" />
+    <ClInclude Include="SDL_Window_Impl.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
