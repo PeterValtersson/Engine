@@ -1,4 +1,5 @@
 #include "Engine.h"
+#include <Utilities/Profiler/Profiler.h>
 
 Engine::Engine::Engine( const Init_Info& init_info ) : sub_systems( init_info.sub_systems ), managers( init_info.managers ) , running(false)
 {
@@ -9,18 +10,15 @@ Engine::Engine::Engine( const Init_Info& init_info ) : sub_systems( init_info.su
 
 void Engine::Engine::start() noexcept
 {
+	PROFILE;
 	sub_systems.renderer->Start();
 	sub_systems.window->MapActionButton( 0, Window::KeyCode::KeyEscape );
-	sub_systems.window->BindKeyPressCallback( 0, [this]
-	{
-		running = false;
-	} );
+	sub_systems.window->BindKeyPressCallback( 0, {this, &Engine::quit} );
+	sub_systems.window->BindOnQuitEvent( {this, &Engine::quit} );
+
 	running = true;
 	while ( running )
-	{
 		frame();
-	}
-
 }
 
 Engine::Managers Engine::Engine::get_managers()
@@ -35,7 +33,13 @@ Engine::Sub_Systems Engine::Engine::get_sub_systems()
 
 void Engine::Engine::frame() noexcept
 {
+	PROFILE;
 	sub_systems.window->Frame();
+}
+
+void Engine::Engine::quit() noexcept
+{
+	running = false;
 }
 
 void Engine::Engine::init_sub_systems()

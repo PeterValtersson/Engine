@@ -72,6 +72,9 @@ namespace Window
 		virtual void UnbindKeyUpCallback( ActionButton actionButton, const KeyCallback& callback )noexcept override;
 
 		virtual void UnbindAllCallbacks()noexcept override;
+
+		virtual void BindOnQuitEvent( const QuitCallback& callback )noexcept override;
+		virtual void UnbindOnQuitEvent( const QuitCallback& callback )noexcept override;
 	private:
 		/*
 			* @brief Checks which event ev is.
@@ -111,6 +114,7 @@ namespace Window
 		std::map<ActionButton, Utilities::Event<KeyCallback::Callback_Signature>> actionToKeyUpCallback;
 		std::map<ActionButton, Utilities::Event<MouseClickCallback::Callback_Signature>> actionToMouseClickCallback;
 		Utilities::Event<MouseMotionCallback::Callback_Signature> mouseMotionCallbacks;
+		Utilities::Event<QuitCallback::Callback_Signature> quitEvent;
 	};
 	
 }

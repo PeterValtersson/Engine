@@ -227,6 +227,7 @@ namespace Window
 	typedef Utilities::Delegate<void( int x, int y )> MouseClickCallback;
 	typedef Utilities::Delegate<void( int xRelative, int yRelative, int xPos, int yPos )> MouseMotionCallback;
 	typedef Utilities::Delegate<void()> KeyCallback;
+	typedef Utilities::Delegate<void()> QuitCallback;
 
 	class Window_Interface {
 	public:
@@ -373,6 +374,13 @@ namespace Window
 		* @sa Delegate
 		*/
 		virtual void UnbindAllCallbacks()noexcept = 0;
+
+		/**
+		* @brief Binds a callback to quit event
+		* @sa Delegate
+		*/
+		virtual void BindOnQuitEvent(const QuitCallback& callback)noexcept = 0;
+		virtual void UnbindOnQuitEvent( const QuitCallback& callback )noexcept = 0;
 
 	};
 

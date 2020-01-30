@@ -13,6 +13,8 @@ namespace Engine
 		virtual Sub_Systems get_sub_systems() override;
 	private:
 		void frame()noexcept;
+		void quit()noexcept;
+
 
 		void init_sub_systems();
 		void init_managers();

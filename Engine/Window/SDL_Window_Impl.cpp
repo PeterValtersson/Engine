@@ -272,6 +272,16 @@ void Window::SDL_Window_Impl::UnbindAllCallbacks()noexcept
 		e.second.Clear();
 }
 
+void Window::SDL_Window_Impl::BindOnQuitEvent( const QuitCallback& callback ) noexcept
+{
+	quitEvent += callback;
+}
+
+void Window::SDL_Window_Impl::UnbindOnQuitEvent( const QuitCallback & callback ) noexcept
+{
+	quitEvent -= callback;
+}
+
 void Window::SDL_Window_Impl::EventSwitch( SDL_Event ev ) noexcept
 {
 	PROFILE;
@@ -384,7 +394,7 @@ void Window::SDL_Window_Impl::EventSwitch( SDL_Event ev ) noexcept
 	}
 	case SDL_QUIT:
 	{
-		// TODO: Add quit event callback (When pressing ALT+F4 or X button).
+		quitEvent();
 		break;
 	}
 	default:
