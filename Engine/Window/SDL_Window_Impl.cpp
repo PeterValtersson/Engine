@@ -6,12 +6,12 @@
 #pragma comment(lib, "SDL2main.lib")
 Window::SDL_Window_Impl::SDL_Window_Impl( const InitializationInfo& init_info ) : curMouseX( 0 ), curMouseY( 0 ), relMouseX( 0 ), relMouseY( 0 ), init_info( init_info ), window( nullptr )
 {
-	/*if ( SDL_Init( SDL_INIT_VIDEO ) < 0 )
+	if ( SDL_Init( SDL_INIT_VIDEO ) < 0 )
 		throw Could_Not_Create_Window( "Failed to initialize SDL subsystem" );
 	uint32_t createFlags = SDL_WINDOW_SHOWN | ( init_info.fullScreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0 );
 	window = SDL_CreateWindow( init_info.windowTitle.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, init_info.resolution.width, init_info.resolution.height, createFlags );
 	if ( window == nullptr )
-		throw Could_Not_Create_Window( "Failed to create window." );*/
+		throw Could_Not_Create_Window( "Failed to create window." );
 
 	/* Annoying to type abstraction of SDL... */
 	keyMapping = {
