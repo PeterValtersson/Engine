@@ -31,6 +31,9 @@ namespace Engine
 
 		Sub_Systems sub_systems;
 		Managers managers;
+
+
+		bool running;
 	};
 
 }

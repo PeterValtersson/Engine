@@ -1,6 +1,6 @@
 #include "Engine.h"
 
-Engine::Engine::Engine( const Init_Info& init_info ) : sub_systems( init_info.sub_systems ), managers( init_info.managers )
+Engine::Engine::Engine( const Init_Info& init_info ) : sub_systems( init_info.sub_systems ), managers( init_info.managers ) , running(false)
 {
 
 	init_sub_systems();
@@ -9,13 +9,16 @@ Engine::Engine::Engine( const Init_Info& init_info ) : sub_systems( init_info.su
 
 void Engine::Engine::start() noexcept
 {
-	sub_systems.window->MapActionButton( 0, Window::KeyCode::KeyEscape );
 	sub_systems.renderer->Start();
-	while ( true )
+	sub_systems.window->MapActionButton( 0, Window::KeyCode::KeyEscape );
+	sub_systems.window->BindKeyPressCallback( 0, [this]
+	{
+		running = false;
+	} );
+	running = true;
+	while ( running )
 	{
 		frame();
-		if ( sub_systems.window->ButtonPressed( 0 ) )
-			break;
 	}
 
 }

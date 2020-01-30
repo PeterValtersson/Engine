@@ -7,6 +7,7 @@
 #include <stdint.h>
 #include <string>
 #include <Utilities/ErrorHandling.h>
+#include <Utilities/Delegate.h>
 
 namespace Window
 {
@@ -223,6 +224,10 @@ namespace Window
 			KeyCount_
 	};
 
+	typedef Utilities::Delegate<void( int x, int y )> MouseClickCallback;
+	typedef Utilities::Delegate<void( int xRelative, int yRelative, int xPos, int yPos )> MouseMotionCallback;
+	typedef Utilities::Delegate<void()> KeyCallback;
+
 	class Window_Interface {
 	public:
 		DECLSPEC_WINDOW static std::shared_ptr<Window_Interface> create_window( Window_Type type, const InitializationInfo& init_info );
@@ -332,6 +337,43 @@ namespace Window
 		* @retval float Returns frame delta time in seconds
 		*/
 		virtual float GetDelta() const noexcept = 0;
+
+		/**
+			* @brief Binds a callback function that is called when the mouse button bound to actionButton is lifted (a click).
+			* @sa Delegate
+			*/
+		virtual void BindMouseClickCallback( ActionButton actionButton, const MouseClickCallback& callback )noexcept = 0;
+		virtual void UnbindMouseClickCallback( ActionButton actionButton, const MouseClickCallback& callback )noexcept = 0;
+		/**
+		* @brief Binds a callback function that is called when the mouse is moved.
+		* @sa Delegate
+		*/
+		virtual void BindMouseMotionCallback( const MouseMotionCallback& callback )noexcept = 0;
+		virtual void UnbindMouseMotionCallback( const MouseMotionCallback& callback )noexcept = 0;
+		/**
+		* @brief Binds a callback function that is called when the key bound to actionButton is pressed
+		* @sa Delegate
+		*/
+		virtual void BindKeyPressCallback( ActionButton actionButton, const KeyCallback& callback )noexcept = 0;
+		virtual void UnbindKeyPressCallback( ActionButton actionButton, const KeyCallback& callback )noexcept = 0;
+		/**
+		* @brief Binds a callback function that is called when the key bound to actionButton is down.
+		* @sa Delegate
+		*/
+		virtual void BindKeyDownCallback( ActionButton actionButton, const KeyCallback& callback )noexcept = 0;
+		virtual void UnbindKeyDownCallback( ActionButton actionButton, const KeyCallback& callback )noexcept = 0;
+		/**
+		* @brief Binds a callback function that is called when the key bound to actionButton is lifted
+		* @sa Delegate
+		*/
+		virtual void BindKeyUpCallback( ActionButton actionButton, const KeyCallback& callback )noexcept = 0;
+		virtual void UnbindKeyUpCallback( ActionButton actionButton, const KeyCallback& callback )noexcept = 0;
+		/**
+		* @brief Unbinds all previously bound callbacks
+		* @sa Delegate
+		*/
+		virtual void UnbindAllCallbacks()noexcept = 0;
+
 	};
 
 }

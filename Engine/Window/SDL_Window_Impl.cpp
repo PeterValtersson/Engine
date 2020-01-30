@@ -153,9 +153,13 @@ void Window::SDL_Window_Impl::GetMousePos( int& x, int& y ) const noexcept
 void Window::SDL_Window_Impl::ToggleCursor( bool on ) noexcept
 {
 	if ( on )
-		while ( ShowCursor( on ) < 0 ) {}
+		while ( ShowCursor( on ) < 0 )
+		{
+		}
 	else
-		while ( ShowCursor( on ) >= 0 ) {}
+		while ( ShowCursor( on ) >= 0 )
+		{
+		}
 }
 
 void Window::SDL_Window_Impl::SetWindowTitle( const std::string& title ) noexcept
@@ -205,6 +209,69 @@ float Window::SDL_Window_Impl::GetDelta() const noexcept
 	return timer.GetDelta();
 }
 
+void Window::SDL_Window_Impl::BindMouseClickCallback( ActionButton actionButton, const MouseClickCallback& callback ) noexcept
+{
+	actionToMouseClickCallback[actionButton] += callback;
+}
+
+void Window::SDL_Window_Impl::UnbindMouseClickCallback( ActionButton actionButton, const MouseClickCallback& callback ) noexcept
+{
+	actionToMouseClickCallback[actionButton] -= callback;
+}
+
+void Window::SDL_Window_Impl::BindMouseMotionCallback( const MouseMotionCallback& callback ) noexcept
+{
+	mouseMotionCallbacks += callback;
+}
+
+void Window::SDL_Window_Impl::UnbindMouseMotionCallback( const MouseMotionCallback& callback ) noexcept
+{
+	mouseMotionCallbacks -= callback;
+}
+
+void Window::SDL_Window_Impl::BindKeyPressCallback( ActionButton actionButton, const KeyCallback& callback ) noexcept
+{
+	actionToKeyPressCallback[actionButton] += callback;
+}
+
+void Window::SDL_Window_Impl::UnbindKeyPressCallback( ActionButton actionButton, const KeyCallback& callback ) noexcept
+{
+	actionToKeyPressCallback[actionButton] -= callback;
+}
+
+void Window::SDL_Window_Impl::BindKeyDownCallback( ActionButton actionButton, const KeyCallback& callback ) noexcept
+{
+	actionToKeyDownCallback[actionButton] += callback;
+}
+
+void Window::SDL_Window_Impl::UnbindKeyDownCallback( ActionButton actionButton, const KeyCallback& callback ) noexcept
+{
+	actionToKeyDownCallback[actionButton] -= callback;
+}
+
+void Window::SDL_Window_Impl::BindKeyUpCallback( ActionButton actionButton, const KeyCallback& callback ) noexcept
+{
+	actionToKeyUpCallback[actionButton] += callback;
+}
+
+void Window::SDL_Window_Impl::UnbindKeyUpCallback( ActionButton actionButton, const KeyCallback& callback ) noexcept
+{
+	actionToKeyUpCallback[actionButton] -= callback;
+}
+
+void Window::SDL_Window_Impl::UnbindAllCallbacks()noexcept
+{
+	mouseMotionCallbacks.Clear();
+	for ( auto& e : actionToMouseClickCallback )
+		e.second.Clear();
+	for ( auto& e : actionToKeyPressCallback )
+		e.second.Clear();
+	for ( auto& e : actionToKeyDownCallback )
+		e.second.Clear();
+	for ( auto& e : actionToKeyUpCallback )
+		e.second.Clear();
+}
+
 void Window::SDL_Window_Impl::EventSwitch( SDL_Event ev ) noexcept
 {
 	PROFILE;
@@ -212,13 +279,14 @@ void Window::SDL_Window_Impl::EventSwitch( SDL_Event ev ) noexcept
 	{
 	case SDL_KEYUP:	// if type is KeyUp
 	{
-		const auto state = keyToAction.find( ev.key.keysym.sym );
-		if ( state != keyToAction.end() )	// if key is bound sets its state
+		if ( const auto state = keyToAction.find( ev.key.keysym.sym ); state != keyToAction.end() )	// if key is bound sets its state
 		{
-			for ( auto& k : state->second )
+			for ( auto k : state->second )
 			{
 				actionToKeyState[k] = KeyState::UP;
 				actionToKeyStateLastTime[k] = std::chrono::high_resolution_clock::now();
+				if ( const auto cbevent = actionToKeyUpCallback.find( k ); cbevent != actionToKeyUpCallback.end() )
+					cbevent->second();
 			}
 
 		}
@@ -247,20 +315,11 @@ void Window::SDL_Window_Impl::EventSwitch( SDL_Event ev ) noexcept
 							actionToKeyState[k] |= KeyState::DOUBLE;
 						}
 					}
-
-					//auto pressCallbacks = actionToKeyPressCallback.find( k );
-					//if ( pressCallbacks != actionToKeyPressCallback.end() )
-					//{
-					//	for ( auto& cb : pressCallbacks->second )
-					//		cb();
-					//}
+					if ( const auto cbevent = actionToKeyPressCallback.find( k ); cbevent != actionToKeyPressCallback.end() )
+						cbevent->second();
 				}
-				/*auto downCallbacks = actionToKeyDownCallback.find( k );
-				if ( downCallbacks != actionToKeyDownCallback.end() )
-				{
-					for ( auto& cb : downCallbacks->second )
-						cb();
-				}*/
+				if ( const auto cbevent = actionToKeyDownCallback.find( k ); cbevent != actionToKeyDownCallback.end() )
+					cbevent->second();
 			}
 
 		}
@@ -272,8 +331,7 @@ void Window::SDL_Window_Impl::EventSwitch( SDL_Event ev ) noexcept
 		curMouseY = ev.motion.y;
 		relMouseX = ev.motion.xrel;
 		relMouseY = ev.motion.yrel;
-	/*	for ( auto& cb : mouseMotionCallbacks )
-			cb( relMouseX, relMouseY, curMouseX, curMouseY );*/
+		mouseMotionCallbacks( relMouseX, relMouseY, curMouseX, curMouseY );
 		break;
 	}
 	case SDL_MOUSEBUTTONDOWN:	// if type is MouseButtonDown
@@ -305,12 +363,9 @@ void Window::SDL_Window_Impl::EventSwitch( SDL_Event ev ) noexcept
 		{
 			for ( auto& k : state->second )
 			{
-				/*auto mouseClickCallbacks = actionToMouseClickCallback.find( k );
-				if ( mouseClickCallbacks != actionToMouseClickCallback.end() )
-				{
-					for ( auto& cb : mouseClickCallbacks->second )
-						cb( curMouseX, curMouseY );
-				}*/
+				if ( const auto cbevent = actionToMouseClickCallback.find( k ); cbevent != actionToMouseClickCallback.end() )
+					cbevent->second( curMouseX, curMouseY );
+
 				actionToKeyState[k] = KeyState::UP;
 			}
 
@@ -325,6 +380,11 @@ void Window::SDL_Window_Impl::EventSwitch( SDL_Event ev ) noexcept
 		{
 			mouseRightDown = false;
 		}
+		break;
+	}
+	case SDL_QUIT:
+	{
+		// TODO: Add quit event callback (When pressing ALT+F4 or X button).
 		break;
 	}
 	default:

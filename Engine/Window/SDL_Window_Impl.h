@@ -9,6 +9,7 @@
 #include <chrono>
 #include <Utilities/Time/Timer.h>
 #include <Utilities/Flags.h>
+#include <Utilities/Event.h>
 
 namespace Window
 {
@@ -53,6 +54,24 @@ namespace Window
 		virtual void SetWindowInfo( const InitializationInfo& info ) override;
 
 		virtual float GetDelta() const noexcept override;
+
+
+		virtual void BindMouseClickCallback( ActionButton actionButton, const MouseClickCallback& callback )noexcept override;
+		virtual void UnbindMouseClickCallback( ActionButton actionButton, const MouseClickCallback& callback )noexcept override;
+
+		virtual void BindMouseMotionCallback( const MouseMotionCallback& callback )noexcept override;
+		virtual void UnbindMouseMotionCallback( const MouseMotionCallback& callback )noexcept override;
+
+		virtual void BindKeyPressCallback( ActionButton actionButton, const KeyCallback& callback )noexcept override;
+		virtual void UnbindKeyPressCallback( ActionButton actionButton, const KeyCallback& callback )noexcept override;
+
+		virtual void BindKeyDownCallback( ActionButton actionButton, const KeyCallback& callback )noexcept override;
+		virtual void UnbindKeyDownCallback( ActionButton actionButton, const KeyCallback& callback )noexcept override;
+
+		virtual void BindKeyUpCallback( ActionButton actionButton, const KeyCallback& callback )noexcept override;
+		virtual void UnbindKeyUpCallback( ActionButton actionButton, const KeyCallback& callback )noexcept override;
+
+		virtual void UnbindAllCallbacks()noexcept override;
 	private:
 		/*
 			* @brief Checks which event ev is.
@@ -84,6 +103,14 @@ namespace Window
 		KeyState GetKeyState( ActionButton actionButton ) const noexcept;
 
 		Utilities::Time::Timer timer;
+	
+
+		/* Callbacks */
+		std::map<ActionButton, Utilities::Event<KeyCallback::Callback_Signature>> actionToKeyPressCallback;
+		std::map<ActionButton, Utilities::Event<KeyCallback::Callback_Signature>> actionToKeyDownCallback;
+		std::map<ActionButton, Utilities::Event<KeyCallback::Callback_Signature>> actionToKeyUpCallback;
+		std::map<ActionButton, Utilities::Event<MouseClickCallback::Callback_Signature>> actionToMouseClickCallback;
+		Utilities::Event<MouseMotionCallback::Callback_Signature> mouseMotionCallbacks;
 	};
 	
 }
