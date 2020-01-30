@@ -43,7 +43,8 @@ void Engine::Engine::init_window()
 void Engine::Engine::init_renderer()
 {
 	Graphics::RendererInitializationInfo ii;
-	//ii.resolution = *( Graphics::Resolution* ) & sub_systems.window->GetResolution();
+	ii.resolution = *( Graphics::Resolution* ) & sub_systems.window->GetResolution();
+	ii.windowHandle = sub_systems.window->GetWindowHandle();
 	sub_systems.renderer = Graphics::Renderer_Interface::Create_Renderer( Graphics::Renderer_Backend::DIRECTX11, ii );
 }
 

@@ -226,7 +226,8 @@ namespace Window
 	class Window_Interface {
 	public:
 		DECLSPEC_WINDOW static std::shared_ptr<Window_Interface> create_window( Window_Type type, const InitializationInfo& init_info );
-
+		virtual ~Window_Interface()
+		{}
 		/**
 			* @brief Polls for input
 			*/

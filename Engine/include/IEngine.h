@@ -35,6 +35,8 @@ namespace Engine
 	{
 	public:
 		DECLSPEC_ENGINE static std::unique_ptr<IEngine> create(const Init_Info& init_info );
+		virtual ~IEngine()
+		{}
 	protected:
 
 

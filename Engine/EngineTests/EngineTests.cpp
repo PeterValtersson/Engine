@@ -14,7 +14,9 @@ public:
 	{
 		try
 		{
-			auto e = Engine::IEngine::create( {} );
+			Engine::Init_Info ii;
+			ii.sub_systems.resource_archive = Resources::IResourceArchive::create_binary_archive( "data.dat", Resources::AccessMode::read_write );
+			auto e = Engine::IEngine::create( ii );
 		}
 		catch ( Utilities::Exception & e )
 		{

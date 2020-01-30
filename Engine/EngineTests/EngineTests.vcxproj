@@ -188,6 +188,9 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Resource-Handler\ResourceHandler\ResourceArchive\ResourceArchive.vcxproj">
+      <Project>{eb665cd1-efa4-419b-b6af-882e5bcdb66e}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Engine\Engine.vcxproj">
       <Project>{0e59049c-407e-40ac-b7e5-5052b99f455f}</Project>
     </ProjectReference>
