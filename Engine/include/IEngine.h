@@ -37,6 +37,11 @@ namespace Engine
 		DECLSPEC_ENGINE static std::unique_ptr<IEngine> create(const Init_Info& init_info );
 		virtual ~IEngine()
 		{}
+
+		virtual void start()noexcept = 0;
+	
+		virtual Managers get_managers() = 0;
+		virtual Sub_Systems get_sub_systems() = 0;
 	protected:
 
 

@@ -7,6 +7,34 @@ Engine::Engine::Engine( const Init_Info& init_info ) : sub_systems( init_info.su
 	init_managers();
 }
 
+void Engine::Engine::start() noexcept
+{
+	sub_systems.window->MapActionButton( 0, Window::KeyCode::KeyEscape );
+	sub_systems.renderer->Start();
+	while ( true )
+	{
+		frame();
+		if ( sub_systems.window->ButtonPressed( 0 ) )
+			break;
+	}
+
+}
+
+Engine::Managers Engine::Engine::get_managers()
+{
+	return managers;
+}
+
+Engine::Sub_Systems Engine::Engine::get_sub_systems()
+{
+	return sub_systems;
+}
+
+void Engine::Engine::frame() noexcept
+{
+	sub_systems.window->Frame();
+}
+
 void Engine::Engine::init_sub_systems()
 {
 	if ( !sub_systems.window )

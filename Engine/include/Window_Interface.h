@@ -31,7 +31,7 @@ namespace Window
 	};
 	typedef uint32_t ActionButton; // Defined by the user.
 
-	enum KeyCode {
+	enum class KeyCode {
 		KeyEscape,
 		KeyF1,
 		KeyF2,

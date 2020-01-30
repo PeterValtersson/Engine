@@ -7,7 +7,13 @@ namespace Engine
 	public:
 		Engine( const Init_Info& init_info );
 
+		virtual void start()noexcept override;
+		
+		virtual Managers get_managers() override;
+		virtual Sub_Systems get_sub_systems() override;
 	private:
+		void frame()noexcept;
+
 		void init_sub_systems();
 		void init_managers();
 
