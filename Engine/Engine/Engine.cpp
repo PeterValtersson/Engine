@@ -10,6 +10,7 @@ Engine::Engine::Engine( const Init_Info& init_info ) : sub_systems( init_info.su
 
 Engine::Engine::~Engine()
 {
+	running = false;
 	if ( thread.joinable() )
 		thread.join();
 }
