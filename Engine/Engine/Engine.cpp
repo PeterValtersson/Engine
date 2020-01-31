@@ -93,10 +93,10 @@ void Engine::Engine::init_window()
 
 void Engine::Engine::init_renderer()
 {
-	Graphics::RendererInitializationInfo ii;
-	ii.resolution = *( Graphics::Resolution* ) & sub_systems.window->GetResolution();
+	Renderer::RendererInitializationInfo ii;
+	ii.resolution = *( Renderer::Resolution* ) & sub_systems.window->GetResolution();
 	ii.windowHandle = sub_systems.window->GetWindowHandle();
-	sub_systems.renderer = Graphics::Renderer_Interface::Create_Renderer( Graphics::Renderer_Backend::DIRECTX11, ii );
+	sub_systems.renderer = Renderer::Renderer_Interface::Create_Renderer( Renderer::Renderer_Backend::DIRECTX11, ii );
 }
 
 void Engine::Engine::init_resource_archive( ResourceHandler::AccessMode mode )

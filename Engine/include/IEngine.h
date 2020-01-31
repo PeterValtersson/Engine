@@ -14,7 +14,7 @@ namespace Engine
 {
 	struct Sub_Systems {
 		std::shared_ptr<Window::Window_Interface>		window;
-		std::shared_ptr<Graphics::Renderer_Interface>	renderer;
+		std::shared_ptr<Renderer::Renderer_Interface>	renderer;
 		std::shared_ptr<ResourceHandler::IResourceArchive>	resource_archive;
 		std::shared_ptr<ResourceHandler::IResourceHandler>	resource_handler;
 	};
