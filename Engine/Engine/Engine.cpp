@@ -100,13 +100,13 @@ void Engine::Engine::init_renderer()
 
 void Engine::Engine::init_resource_archive()
 {
-	sub_systems.resource_archive = Resources::IResourceArchive::create_binary_archive( "data.dat", Resources::AccessMode::read );
+	sub_systems.resource_archive = ResourceHandler::IResourceArchive::create_binary_archive( "data.dat", ResourceHandler::AccessMode::read );
 }
 
 void Engine::Engine::init_resource_handler()
 {
-	sub_systems.resource_handler = Resources::IResourceHandler::create( Resources::AccessMode::read, sub_systems.resource_archive );
-	Resources::IResourceHandler::set( sub_systems.resource_handler );
+	sub_systems.resource_handler = ResourceHandler::IResourceHandler::create( ResourceHandler::AccessMode::read, sub_systems.resource_archive );
+	ResourceHandler::IResourceHandler::set( sub_systems.resource_handler );
 }
 
 void Engine::Engine::init_entity_manager()

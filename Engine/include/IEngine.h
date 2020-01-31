@@ -15,8 +15,8 @@ namespace Engine
 	struct Sub_Systems {
 		std::shared_ptr<Window::Window_Interface>		window;
 		std::shared_ptr<Graphics::Renderer_Interface>	renderer;
-		std::shared_ptr<Resources::IResourceArchive>	resource_archive;
-		std::shared_ptr<Resources::IResourceHandler>	resource_handler;
+		std::shared_ptr<ResourceHandler::IResourceArchive>	resource_archive;
+		std::shared_ptr<ResourceHandler::IResourceHandler>	resource_handler;
 	};
 	struct Managers {
 		std::shared_ptr<ECS::EntityManager_Interface>		entity_manager;
@@ -27,7 +27,7 @@ namespace Engine
 
 	};
 	struct Init_Info {
-		Resources::AccessMode mode = Resources::AccessMode::read;
+		ResourceHandler::AccessMode mode = ResourceHandler::AccessMode::read;
 		Sub_Systems sub_systems;
 		Managers managers;
 	};
