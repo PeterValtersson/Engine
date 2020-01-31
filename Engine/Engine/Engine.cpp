@@ -14,7 +14,7 @@ Engine::Engine::~Engine()
 		thread.join();
 }
 
-void Engine::Engine::start( bool threaded = false ) noexcept
+void Engine::Engine::start( bool threaded ) noexcept
 {
 	PROFILE;
 	sub_systems.renderer->Start();
