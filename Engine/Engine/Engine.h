@@ -19,13 +19,13 @@ namespace Engine
 		void quit()noexcept;
 
 
-		void init_sub_systems();
+		void init_sub_systems( ResourceHandler::AccessMode mode );
 		void init_managers();
 
 		void init_window();
 		void init_renderer();
-		void init_resource_archive();
-		void init_resource_handler();
+		void init_resource_archive( ResourceHandler::AccessMode mode );
+		void init_resource_handler( ResourceHandler::AccessMode mode );
 
 		void init_entity_manager();
 		void init_transform_manager();

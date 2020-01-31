@@ -4,7 +4,7 @@
 Engine::Engine::Engine( const Init_Info& init_info ) : sub_systems( init_info.sub_systems ), managers( init_info.managers ), running( false )
 {
 
-	init_sub_systems();
+	init_sub_systems( init_info.mode );
 	init_managers();
 }
 
@@ -57,16 +57,16 @@ void Engine::Engine::quit() noexcept
 	running = false;
 }
 
-void Engine::Engine::init_sub_systems()
+void Engine::Engine::init_sub_systems( ResourceHandler::AccessMode mode )
 {
 	if ( !sub_systems.window )
 		init_window();
 	if ( !sub_systems.renderer )
 		init_renderer();
 	if ( !sub_systems.resource_archive )
-		init_resource_archive();
+		init_resource_archive( mode );
 	if ( !sub_systems.resource_handler )
-		init_resource_handler();
+		init_resource_handler( mode );
 
 }
 
@@ -98,14 +98,14 @@ void Engine::Engine::init_renderer()
 	sub_systems.renderer = Graphics::Renderer_Interface::Create_Renderer( Graphics::Renderer_Backend::DIRECTX11, ii );
 }
 
-void Engine::Engine::init_resource_archive()
+void Engine::Engine::init_resource_archive( ResourceHandler::AccessMode mode )
 {
-	sub_systems.resource_archive = ResourceHandler::IResourceArchive::create_binary_archive( "data.dat", ResourceHandler::AccessMode::read );
+	sub_systems.resource_archive = ResourceHandler::IResourceArchive::create_binary_archive( "data.dat", mode );
 }
 
-void Engine::Engine::init_resource_handler()
+void Engine::Engine::init_resource_handler( ResourceHandler::AccessMode mode )
 {
-	sub_systems.resource_handler = ResourceHandler::IResourceHandler::create( ResourceHandler::AccessMode::read, sub_systems.resource_archive );
+	sub_systems.resource_handler = ResourceHandler::IResourceHandler::create( mode, sub_systems.resource_archive );
 	ResourceHandler::IResourceHandler::set( sub_systems.resource_handler );
 }
 
