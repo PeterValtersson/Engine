@@ -15,7 +15,7 @@ public:
 		try
 		{
 			Engine::Init_Info ii;
-			ii.sub_systems.resource_archive = Resources::IResourceArchive::create_binary_archive( "data.dat", Resources::AccessMode::read_write );
+			ii.sub_systems.resource_archive = ResourceHandler::IResourceArchive::create_binary_archive( "data.dat", ResourceHandler::AccessMode::read_write );
 			auto e = Engine::IEngine::create( ii );
 
 		}
@@ -30,7 +30,7 @@ public:
 		try
 		{
 			Engine::Init_Info ii;
-			ii.sub_systems.resource_archive = Resources::IResourceArchive::create_binary_archive( "data.dat", Resources::AccessMode::read_write );
+			ii.sub_systems.resource_archive = ResourceHandler::IResourceArchive::create_binary_archive( "data.dat", ResourceHandler::AccessMode::read_write );
 			auto e = Engine::IEngine::create( ii );
 			e->start();
 		}
@@ -97,7 +97,7 @@ public:
 		try
 		{
 			Engine::Init_Info ii;
-			ii.sub_systems.resource_archive = Resources::IResourceArchive::create_binary_archive( "data.dat", Resources::AccessMode::read_write );
+			ii.sub_systems.resource_archive = ResourceHandler::IResourceArchive::create_binary_archive( "data.dat", ResourceHandler::AccessMode::read_write );
 			auto e = Engine::IEngine::create( ii );
 			auto r = e->get_sub_systems().renderer;
 
