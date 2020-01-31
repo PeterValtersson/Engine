@@ -27,6 +27,7 @@ namespace Engine
 
 	};
 	struct Init_Info {
+		Resources::AccessMode mode = Resources::AccessMode::read;
 		Sub_Systems sub_systems;
 		Managers managers;
 	};
@@ -38,7 +39,7 @@ namespace Engine
 		virtual ~IEngine()
 		{}
 
-		virtual void start()noexcept = 0;
+		virtual void start(bool threaded = false)noexcept = 0;
 	
 		virtual Managers get_managers() = 0;
 		virtual Sub_Systems get_sub_systems() = 0;

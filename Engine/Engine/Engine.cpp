@@ -1,24 +1,39 @@
 #include "Engine.h"
 #include <Utilities/Profiler/Profiler.h>
 
-Engine::Engine::Engine( const Init_Info& init_info ) : sub_systems( init_info.sub_systems ), managers( init_info.managers ) , running(false)
+Engine::Engine::Engine( const Init_Info& init_info ) : sub_systems( init_info.sub_systems ), managers( init_info.managers ), running( false )
 {
 
 	init_sub_systems();
 	init_managers();
 }
 
-void Engine::Engine::start() noexcept
+Engine::Engine::~Engine()
+{
+	if ( thread.joinable() )
+		thread.join();
+}
+
+void Engine::Engine::start( bool threaded = false ) noexcept
 {
 	PROFILE;
 	sub_systems.renderer->Start();
 	sub_systems.window->MapActionButton( 0, Window::KeyCode::KeyEscape );
-	sub_systems.window->BindKeyPressCallback( 0, {this, &Engine::quit} );
-	sub_systems.window->BindOnQuitEvent( {this, &Engine::quit} );
+	sub_systems.window->BindKeyPressCallback( 0, { this, &Engine::quit } );
+	sub_systems.window->BindOnQuitEvent( { this, &Engine::quit } );
 
 	running = true;
-	while ( running )
-		frame();
+	if ( threaded )
+	{
+		thread = std::thread( [this]
+		{
+			while ( running )
+				frame();
+		} );
+	}
+	else
+		while ( running )
+			frame();
 }
 
 Engine::Managers Engine::Engine::get_managers()

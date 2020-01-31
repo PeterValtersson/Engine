@@ -1,13 +1,16 @@
 #pragma once
 #include <IEngine.h>
+#include <thread>
+
 namespace Engine
 {
 	class Engine :
 		public IEngine {
 	public:
 		Engine( const Init_Info& init_info );
+		virtual ~Engine();
 
-		virtual void start()noexcept override;
+		virtual void start( bool threaded = false )noexcept override;
 		
 		virtual Managers get_managers() override;
 		virtual Sub_Systems get_sub_systems() override;
@@ -36,6 +39,7 @@ namespace Engine
 
 
 		bool running;
+		std::thread thread;
 	};
 
 }
