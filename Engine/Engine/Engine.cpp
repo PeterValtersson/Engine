@@ -47,6 +47,13 @@ Engine::Sub_Systems Engine::Engine::get_sub_systems()
 	return sub_systems;
 }
 
+const std::vector<std::weak_ptr<ECS::ComponentReflection>> Engine::Engine::get_component_reflections() const
+{
+	std::vector<std::weak_ptr<ECS::ComponentReflection>> ret;
+	ret.push_back(entity_components.transform_component);
+	return ret;
+}
+
 void Engine::Engine::frame() noexcept
 {
 	PROFILE;

@@ -40,6 +40,7 @@ namespace Engine
 	
 		virtual EntityComponents get_entity_components() = 0;
 		virtual Sub_Systems get_sub_systems() = 0;
+		virtual const std::vector<std::weak_ptr<ECS::ComponentReflection>> get_component_reflections()const = 0;
 	protected:
 
 

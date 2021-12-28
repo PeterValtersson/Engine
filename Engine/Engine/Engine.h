@@ -14,6 +14,7 @@ namespace Engine
 		
 		virtual EntityComponents get_entity_components() override;
 		virtual Sub_Systems get_sub_systems() override;
+		virtual const std::vector<std::weak_ptr<ECS::ComponentReflection>> get_component_reflections()const override;
 	private:
 		void frame()noexcept;
 		void quit()noexcept;
