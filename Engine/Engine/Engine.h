@@ -12,7 +12,7 @@ namespace Engine
 
 		virtual void start( bool threaded = false )noexcept override;
 		
-		virtual Managers get_managers() override;
+		virtual EntityComponents get_entity_components() override;
 		virtual Sub_Systems get_sub_systems() override;
 	private:
 		void frame()noexcept;
@@ -35,7 +35,7 @@ namespace Engine
 	private:
 
 		Sub_Systems sub_systems;
-		Managers managers;
+		EntityComponents entity_components;
 
 
 		bool running;

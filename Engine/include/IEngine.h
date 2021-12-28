@@ -5,10 +5,7 @@
 #include <IResourceHandler.h>
 #include <Graphics/Renderer_Interface.h>
 #include <Window_Interface.h>
-#include <Managers/TransformManager_Interface.h>
-#include <Managers/PropertyManager_Interface.h>
-#include <Managers/SceneManager_Interface.h>
-#include <Managers/CameraManager_Interface.h>
+#include <ECS/Components/EntityComponentFactory.h>
 
 namespace Engine
 {
@@ -18,18 +15,18 @@ namespace Engine
 		std::shared_ptr<ResourceHandler::IResourceArchive>	resource_archive;
 		std::shared_ptr<ResourceHandler::IResourceHandler>	resource_handler;
 	};
-	struct Managers {
-		std::shared_ptr<ECS::EntityManager_Interface>		entity_manager;
-		std::shared_ptr<ECS::TransformManager_Interface>	transform_manager;
-		std::shared_ptr<ECS::PropertyManager_Interface>		property_manager;
-		std::shared_ptr<ECS::SceneManager_Interface>		scene_manager;
-		std::shared_ptr<ECS::CameraManager_Interface>		camera_manager;
+	struct EntityComponents {
+		std::shared_ptr<ECS::EntityFactory>		entity_factory;
+		std::shared_ptr<ECS::TransformComponent>	transform_component;
+		std::shared_ptr<ECS::PropertyComponent>		property_component;
+		std::shared_ptr<ECS::SceneComponent>		scene_component;
+		std::shared_ptr<ECS::ViewpointComponent>	camera_component;
 
 	};
 	struct Init_Info {
 		ResourceHandler::AccessMode mode = ResourceHandler::AccessMode::read;
 		Sub_Systems sub_systems;
-		Managers managers;
+		EntityComponents entity_components;
 	};
 
 	class IEngine 
@@ -41,7 +38,7 @@ namespace Engine
 
 		virtual void start(bool threaded = false)noexcept = 0;
 	
-		virtual Managers get_managers() = 0;
+		virtual EntityComponents get_entity_components() = 0;
 		virtual Sub_Systems get_sub_systems() = 0;
 	protected:
 

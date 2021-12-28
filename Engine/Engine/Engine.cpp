@@ -1,7 +1,7 @@
 #include "Engine.h"
 #include <Utilities/Profiler/Profiler.h>
 
-Engine::Engine::Engine( const Init_Info& init_info ) : sub_systems( init_info.sub_systems ), managers( init_info.managers ), running( false )
+Engine::Engine::Engine( const Init_Info& init_info ) : sub_systems( init_info.sub_systems ), entity_components( init_info.entity_components ), running( false )
 {
 
 	init_sub_systems( init_info.mode );
@@ -37,9 +37,9 @@ void Engine::Engine::start( bool threaded ) noexcept
 			frame();
 }
 
-Engine::Managers Engine::Engine::get_managers()
+Engine::EntityComponents Engine::Engine::get_entity_components()
 {
-	return managers;
+	return entity_components;
 }
 
 Engine::Sub_Systems Engine::Engine::get_sub_systems()
@@ -73,15 +73,15 @@ void Engine::Engine::init_sub_systems( ResourceHandler::AccessMode mode )
 
 void Engine::Engine::init_managers()
 {
-	if ( !managers.entity_manager )
+	if ( !entity_components.entity_factory )
 		init_entity_manager();
-	if ( !managers.transform_manager )
+	if ( !entity_components.transform_component )
 		init_transform_manager();
-	if ( !managers.property_manager )
+	if ( !entity_components.property_component )
 		init_property_manager();
-	if ( !managers.scene_manager )
+	if ( !entity_components.scene_component )
 		init_scene_manager();
-	if ( !managers.camera_manager )
+	if ( !entity_components.camera_component )
 		init_camera_manager();
 
 }
@@ -94,7 +94,8 @@ void Engine::Engine::init_window()
 void Engine::Engine::init_renderer()
 {
 	Renderer::RendererInitializationInfo ii;
-	ii.resolution = *( Renderer::Resolution* ) & sub_systems.window->GetResolution();
+	auto res = sub_systems.window->GetResolution();
+	ii.resolution = *( Renderer::Resolution* )&res;
 	ii.windowHandle = sub_systems.window->GetWindowHandle();
 	sub_systems.renderer = Renderer::Renderer_Interface::Create_Renderer( Renderer::Renderer_Backend::DIRECTX11, ii );
 }
@@ -112,25 +113,25 @@ void Engine::Engine::init_resource_handler( ResourceHandler::AccessMode mode )
 
 void Engine::Engine::init_entity_manager()
 {
-	managers.entity_manager = ECS::EntityManager_Interface::create_manager();
+	entity_components.entity_factory = ECS::EntityFactory::create_factory();
 }
 
 void Engine::Engine::init_transform_manager()
 {
-	managers.transform_manager = ECS::TransformManager_Interface::create_manager( { managers.entity_manager } );
+	entity_components.transform_component = ECS::EntityComponentFactory::create_transform_component( { entity_components.entity_factory } );
 }
 
 void Engine::Engine::init_property_manager()
 {
-	managers.property_manager = ECS::PropertyManager_Interface::create_manager( { managers.entity_manager } );
+	entity_components.property_component = ECS::EntityComponentFactory::create_property_manager( { entity_components.entity_factory } );
 }
 
 void Engine::Engine::init_scene_manager()
 {
-	managers.scene_manager = ECS::SceneManager_Interface::create_manager( { managers.entity_manager } );
+	entity_components.scene_component = ECS::EntityComponentFactory::create_scene_component( { entity_components.entity_factory } );
 }
 
 void Engine::Engine::init_camera_manager()
 {
-	managers.camera_manager = ECS::CameraManager_Interface::create_manager( { managers.entity_manager, managers.transform_manager } );
+	entity_components.camera_component = ECS::EntityComponentFactory::create_viewpoint_component( { entity_components.entity_factory, entity_components.transform_component } );
 }
