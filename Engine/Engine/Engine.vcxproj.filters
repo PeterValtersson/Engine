@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\IEngine.h">
+    <ClInclude Include="..\include\ECSEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\DLL_Export.h">
@@ -26,7 +26,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="IEngine.cpp">
+    <ClCompile Include="ECSEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Engine.cpp">

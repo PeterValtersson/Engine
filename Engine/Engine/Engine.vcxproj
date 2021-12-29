@@ -159,11 +159,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
-    <ClCompile Include="IEngine.cpp" />
+    <ClCompile Include="ECSEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\DLL_Export.h" />
-    <ClInclude Include="..\include\IEngine.h" />
+    <ClInclude Include="..\include\ECSEngine.h" />
     <ClInclude Include="Engine.h" />
   </ItemGroup>
   <ItemGroup>

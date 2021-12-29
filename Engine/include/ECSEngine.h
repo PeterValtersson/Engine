@@ -7,7 +7,7 @@
 #include <Window_Interface.h>
 #include <ECS/Components/EntityComponentFactory.h>
 
-namespace Engine
+namespace ECSEngine
 {
 	struct Sub_Systems {
 		std::shared_ptr<Window::Window_Interface>		window;
@@ -29,11 +29,11 @@ namespace Engine
 		EntityComponents entity_components;
 	};
 
-	class IEngine 
+	class ECSEngine 
 	{
 	public:
-		DECLSPEC_ENGINE static std::unique_ptr<IEngine> create(const Init_Info& init_info );
-		virtual ~IEngine()
+		DECLSPEC_ENGINE static std::unique_ptr<ECSEngine> create(const Init_Info& init_info );
+		virtual ~ECSEngine()
 		{}
 
 		virtual void start(bool threaded = false)noexcept = 0;

@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "CppUnitTest.h"
-#include <IEngine.h>
+#include <ECSEngine.h>
 #include <Utilities/StringUtilities.h>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -14,9 +14,9 @@ public:
 	{
 		try
 		{
-			Engine::Init_Info ii;
+			ECSEngine::Init_Info ii;
 			ii.sub_systems.resource_archive = ResourceHandler::IResourceArchive::create_binary_archive( "data.dat", ResourceHandler::AccessMode::read_write );
-			auto e = Engine::IEngine::create( ii );
+			auto e = ECSEngine::ECSEngine::create( ii );
 
 		}
 		catch ( Utilities::Exception & e )
@@ -29,9 +29,9 @@ public:
 	{
 		try
 		{
-			Engine::Init_Info ii;
+			ECSEngine::Init_Info ii;
 			ii.sub_systems.resource_archive = ResourceHandler::IResourceArchive::create_binary_archive( "data.dat", ResourceHandler::AccessMode::read_write );
-			auto e = Engine::IEngine::create( ii );
+			auto e = ECSEngine::ECSEngine::create( ii );
 			e->start();
 		}
 		catch ( Utilities::Exception & e )
@@ -96,9 +96,9 @@ public:
 
 		try
 		{
-			Engine::Init_Info ii;
+			ECSEngine::Init_Info ii;
 			ii.sub_systems.resource_archive = ResourceHandler::IResourceArchive::create_binary_archive( "data.dat", ResourceHandler::AccessMode::read_write );
-			auto e = Engine::IEngine::create( ii );
+			auto e = ECSEngine::ECSEngine::create( ii );
 			auto r = e->get_sub_systems().renderer;
 
 			struct Vertex{

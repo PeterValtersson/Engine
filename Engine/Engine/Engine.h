@@ -1,14 +1,14 @@
 #pragma once
-#include <IEngine.h>
+#include <ECSEngine.h>
 #include <thread>
 
-namespace Engine
+namespace ECSEngine
 {
-	class Engine :
-		public IEngine {
+	class ECSEngine :
+		public ECSEngine {
 	public:
-		Engine( const Init_Info& init_info );
-		virtual ~Engine();
+		ECSEngine( const Init_Info& init_info );
+		virtual ~ECSEngine();
 
 		virtual void start( bool threaded = false )noexcept override;
 		
