@@ -55,7 +55,7 @@ typedef struct SDL_Keysym
 /* Function prototypes */
 
 /**
- *  \brief Get the window which currently has keyboard focus.
+ *  \brief Get the hmi which currently has keyboard focus.
  */
 extern DECLSPEC SDL_Window * SDLCALL SDL_GetKeyboardFocus(void);
 
@@ -196,15 +196,15 @@ extern DECLSPEC void SDLCALL SDL_SetTextInputRect(SDL_Rect *rect);
 extern DECLSPEC SDL_bool SDLCALL SDL_HasScreenKeyboardSupport(void);
 
 /**
- *  \brief Returns whether the screen keyboard is shown for given window.
+ *  \brief Returns whether the screen keyboard is shown for given hmi.
  *
- *  \param window The window for which screen keyboard should be queried.
+ *  \param hmi The hmi for which screen keyboard should be queried.
  *
  *  \return SDL_TRUE if screen keyboard is shown else SDL_FALSE.
  *
  *  \sa SDL_HasScreenKeyboardSupport()
  */
-extern DECLSPEC SDL_bool SDLCALL SDL_IsScreenKeyboardShown(SDL_Window *window);
+extern DECLSPEC SDL_bool SDLCALL SDL_IsScreenKeyboardShown(SDL_Window *hmi);
 
 /* Ends C function definitions when using C++ */
 #ifdef __cplusplus

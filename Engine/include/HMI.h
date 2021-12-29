@@ -2,14 +2,14 @@
 #define _WINDOW_INTERFACE_H_
 
 #pragma once
-#include "DLL_Export_Window.h"
+#include "DLL_Export_HMI.h"
 #include <memory>
 #include <stdint.h>
 #include <string>
 #include <Utilities/ErrorHandling.h>
 #include <Utilities/Delegate.h>
 
-namespace Window
+namespace ECSEngine
 {
 	struct Could_Not_Create_Window : public Utilities::Exception {
 		Could_Not_Create_Window( std::string_view  what ) : Utilities::Exception( what ) {}
@@ -19,7 +19,7 @@ namespace Window
 		uint32_t width;
 		uint32_t height;
 	};
-	enum class Window_Type {
+	enum class HMIType {
 		SDL,
 		OpenVR
 	};
@@ -229,10 +229,10 @@ namespace Window
 	typedef Utilities::Delegate<void()> KeyCallback;
 	typedef Utilities::Delegate<void()> QuitCallback;
 
-	class Window_Interface {
+	class HMI {
 	public:
-		DECLSPEC_WINDOW static std::shared_ptr<Window_Interface> create_window( Window_Type type, const InitializationInfo& init_info );
-		virtual ~Window_Interface()
+		DECLSPEC_HMI static std::shared_ptr<HMI> create_window( HMIType type, const InitializationInfo& init_info );
+		virtual ~HMI()
 		{}
 		/**
 			* @brief Polls for input
@@ -240,17 +240,17 @@ namespace Window
 		virtual void Frame()noexcept = 0;
 
 		/**
-		* @brief Returns a pointer to the window handle
+		* @brief Returns a pointer to the hmi handle
 		* @retval ptr Valid pointer on success
 		* @retval nullptr Nullptr if no such handle.
 		*/
 		virtual void* GetWindowHandle()noexcept = 0;
 
 		/**
-		* @brief Returns a pointer to the implementation specific window. In the case of SDL, it returns a SDL_Window*.
-		* @param[in] implementation The implementation to get the window pointer from.
+		* @brief Returns a pointer to the implementation specific hmi. In the case of SDL, it returns a SDL_Window*.
+		* @param[in] implementation The implementation to get the hmi pointer from.
 		* @retval ptr Valid pointer on success
-		* @retval nullptr Nullptr if no such window exists.
+		* @retval nullptr Nullptr if no such hmi exists.
 		*/
 		virtual void* GetWindowImplementation()noexcept = 0;
 
@@ -284,7 +284,7 @@ namespace Window
 		virtual bool ButtonDouble( ActionButton actionButton ) const noexcept = 0;
 
 		/**
-		* @brief Retrieves the mouse pos on the window.
+		* @brief Retrieves the mouse pos on the hmi.
 		* @parameter[out] x The x position
 		* @parameter[out] y The y position
 		*/
@@ -296,12 +296,12 @@ namespace Window
 		virtual void ToggleCursor( bool on ) noexcept = 0;
 
 		/*
-		 * @brief Sets the title of the window
+		 * @brief Sets the title of the hmi
 		 */
 		virtual void SetWindowTitle( const std::string& title ) noexcept = 0;
 
 		/*
-		 * @brief Returns the resolution of the window.
+		 * @brief Returns the resolution of the hmi.
 		 */
 		virtual Resolution GetResolution() const noexcept = 0;
 
@@ -317,15 +317,15 @@ namespace Window
 		*       SHOOT
 		*   };
 		*
-		*   window.MapActionButton(JUMP, KeySpace);
-		*   window.Frame();
-		*   if(window.ButtonDown(JUMP))
+		*   hmi.MapActionButton(JUMP, KeySpace);
+		*   hmi.Frame();
+		*   if(hmi.ButtonDown(JUMP))
 		*        character.jump();
 		* @endcode
 		*/
 		virtual void MapActionButton( ActionButton actionButton, KeyCode key ) = 0;
 		/**
-		* @brief Sets the window data
+		* @brief Sets the hmi data
 		*
 		* @retval true Returns true if changes has been done to size
 		* @retval false Returns false if no changed to size
@@ -333,7 +333,7 @@ namespace Window
 		virtual void SetWindowInfo( const InitializationInfo& info ) = 0;
 
 		/**
-		* @brief Gets delta time from window
+		* @brief Gets delta time from hmi
 		*
 		* @retval float Returns frame delta time in seconds
 		*/

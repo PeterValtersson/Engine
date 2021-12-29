@@ -60,7 +60,7 @@ typedef struct
 } SDL_DisplayMode;
 
 /**
- *  \brief The type used to identify a window
+ *  \brief The type used to identify a hmi
  *
  *  \sa SDL_CreateWindow()
  *  \sa SDL_CreateWindowFrom()
@@ -90,40 +90,40 @@ typedef struct
 typedef struct SDL_Window SDL_Window;
 
 /**
- *  \brief The flags on a window
+ *  \brief The flags on a hmi
  *
  *  \sa SDL_GetWindowFlags()
  */
 typedef enum
 {
     /* !!! FIXME: change this to name = (1<<x). */
-    SDL_WINDOW_FULLSCREEN = 0x00000001,         /**< fullscreen window */
-    SDL_WINDOW_OPENGL = 0x00000002,             /**< window usable with OpenGL context */
-    SDL_WINDOW_SHOWN = 0x00000004,              /**< window is visible */
-    SDL_WINDOW_HIDDEN = 0x00000008,             /**< window is not visible */
-    SDL_WINDOW_BORDERLESS = 0x00000010,         /**< no window decoration */
-    SDL_WINDOW_RESIZABLE = 0x00000020,          /**< window can be resized */
-    SDL_WINDOW_MINIMIZED = 0x00000040,          /**< window is minimized */
-    SDL_WINDOW_MAXIMIZED = 0x00000080,          /**< window is maximized */
-    SDL_WINDOW_INPUT_GRABBED = 0x00000100,      /**< window has grabbed input focus */
-    SDL_WINDOW_INPUT_FOCUS = 0x00000200,        /**< window has input focus */
-    SDL_WINDOW_MOUSE_FOCUS = 0x00000400,        /**< window has mouse focus */
+    SDL_WINDOW_FULLSCREEN = 0x00000001,         /**< fullscreen hmi */
+    SDL_WINDOW_OPENGL = 0x00000002,             /**< hmi usable with OpenGL context */
+    SDL_WINDOW_SHOWN = 0x00000004,              /**< hmi is visible */
+    SDL_WINDOW_HIDDEN = 0x00000008,             /**< hmi is not visible */
+    SDL_WINDOW_BORDERLESS = 0x00000010,         /**< no hmi decoration */
+    SDL_WINDOW_RESIZABLE = 0x00000020,          /**< hmi can be resized */
+    SDL_WINDOW_MINIMIZED = 0x00000040,          /**< hmi is minimized */
+    SDL_WINDOW_MAXIMIZED = 0x00000080,          /**< hmi is maximized */
+    SDL_WINDOW_INPUT_GRABBED = 0x00000100,      /**< hmi has grabbed input focus */
+    SDL_WINDOW_INPUT_FOCUS = 0x00000200,        /**< hmi has input focus */
+    SDL_WINDOW_MOUSE_FOCUS = 0x00000400,        /**< hmi has mouse focus */
     SDL_WINDOW_FULLSCREEN_DESKTOP = ( SDL_WINDOW_FULLSCREEN | 0x00001000 ),
-    SDL_WINDOW_FOREIGN = 0x00000800,            /**< window not created by SDL */
-    SDL_WINDOW_ALLOW_HIGHDPI = 0x00002000,      /**< window should be created in high-DPI mode if supported.
+    SDL_WINDOW_FOREIGN = 0x00000800,            /**< hmi not created by SDL */
+    SDL_WINDOW_ALLOW_HIGHDPI = 0x00002000,      /**< hmi should be created in high-DPI mode if supported.
                                                      On macOS NSHighResolutionCapable must be set true in the
                                                      application's Info.plist for this to have any effect. */
-    SDL_WINDOW_MOUSE_CAPTURE = 0x00004000,      /**< window has mouse captured (unrelated to INPUT_GRABBED) */
-    SDL_WINDOW_ALWAYS_ON_TOP = 0x00008000,      /**< window should always be above others */
-    SDL_WINDOW_SKIP_TASKBAR  = 0x00010000,      /**< window should not be added to the taskbar */
-    SDL_WINDOW_UTILITY       = 0x00020000,      /**< window should be treated as a utility window */
-    SDL_WINDOW_TOOLTIP       = 0x00040000,      /**< window should be treated as a tooltip */
-    SDL_WINDOW_POPUP_MENU    = 0x00080000,      /**< window should be treated as a popup menu */
-    SDL_WINDOW_VULKAN        = 0x10000000       /**< window usable for Vulkan surface */
+    SDL_WINDOW_MOUSE_CAPTURE = 0x00004000,      /**< hmi has mouse captured (unrelated to INPUT_GRABBED) */
+    SDL_WINDOW_ALWAYS_ON_TOP = 0x00008000,      /**< hmi should always be above others */
+    SDL_WINDOW_SKIP_TASKBAR  = 0x00010000,      /**< hmi should not be added to the taskbar */
+    SDL_WINDOW_UTILITY       = 0x00020000,      /**< hmi should be treated as a utility hmi */
+    SDL_WINDOW_TOOLTIP       = 0x00040000,      /**< hmi should be treated as a tooltip */
+    SDL_WINDOW_POPUP_MENU    = 0x00080000,      /**< hmi should be treated as a popup menu */
+    SDL_WINDOW_VULKAN        = 0x10000000       /**< hmi usable for Vulkan surface */
 } SDL_WindowFlags;
 
 /**
- *  \brief Used to indicate that you don't care what the window position is.
+ *  \brief Used to indicate that you don't care what the hmi position is.
  */
 #define SDL_WINDOWPOS_UNDEFINED_MASK    0x1FFF0000u
 #define SDL_WINDOWPOS_UNDEFINED_DISPLAY(X)  (SDL_WINDOWPOS_UNDEFINED_MASK|(X))
@@ -132,7 +132,7 @@ typedef enum
             (((X)&0xFFFF0000) == SDL_WINDOWPOS_UNDEFINED_MASK)
 
 /**
- *  \brief Used to indicate that the window position should be centered.
+ *  \brief Used to indicate that the hmi position should be centered.
  */
 #define SDL_WINDOWPOS_CENTERED_MASK    0x2FFF0000u
 #define SDL_WINDOWPOS_CENTERED_DISPLAY(X)  (SDL_WINDOWPOS_CENTERED_MASK|(X))
@@ -141,32 +141,32 @@ typedef enum
             (((X)&0xFFFF0000) == SDL_WINDOWPOS_CENTERED_MASK)
 
 /**
- *  \brief Event subtype for window events
+ *  \brief Event subtype for hmi events
  */
 typedef enum
 {
     SDL_WINDOWEVENT_NONE,           /**< Never used */
-    SDL_WINDOWEVENT_SHOWN,          /**< Window has been shown */
-    SDL_WINDOWEVENT_HIDDEN,         /**< Window has been hidden */
-    SDL_WINDOWEVENT_EXPOSED,        /**< Window has been exposed and should be
+    SDL_WINDOWEVENT_SHOWN,          /**< ECSEngine has been shown */
+    SDL_WINDOWEVENT_HIDDEN,         /**< ECSEngine has been hidden */
+    SDL_WINDOWEVENT_EXPOSED,        /**< ECSEngine has been exposed and should be
                                          redrawn */
-    SDL_WINDOWEVENT_MOVED,          /**< Window has been moved to data1, data2
+    SDL_WINDOWEVENT_MOVED,          /**< ECSEngine has been moved to data1, data2
                                      */
-    SDL_WINDOWEVENT_RESIZED,        /**< Window has been resized to data1xdata2 */
-    SDL_WINDOWEVENT_SIZE_CHANGED,   /**< The window size has changed, either as
+    SDL_WINDOWEVENT_RESIZED,        /**< ECSEngine has been resized to data1xdata2 */
+    SDL_WINDOWEVENT_SIZE_CHANGED,   /**< The hmi size has changed, either as
                                          a result of an API call or through the
-                                         system or user changing the window size. */
-    SDL_WINDOWEVENT_MINIMIZED,      /**< Window has been minimized */
-    SDL_WINDOWEVENT_MAXIMIZED,      /**< Window has been maximized */
-    SDL_WINDOWEVENT_RESTORED,       /**< Window has been restored to normal size
+                                         system or user changing the hmi size. */
+    SDL_WINDOWEVENT_MINIMIZED,      /**< ECSEngine has been minimized */
+    SDL_WINDOWEVENT_MAXIMIZED,      /**< ECSEngine has been maximized */
+    SDL_WINDOWEVENT_RESTORED,       /**< ECSEngine has been restored to normal size
                                          and position */
-    SDL_WINDOWEVENT_ENTER,          /**< Window has gained mouse focus */
-    SDL_WINDOWEVENT_LEAVE,          /**< Window has lost mouse focus */
-    SDL_WINDOWEVENT_FOCUS_GAINED,   /**< Window has gained keyboard focus */
-    SDL_WINDOWEVENT_FOCUS_LOST,     /**< Window has lost keyboard focus */
-    SDL_WINDOWEVENT_CLOSE,          /**< The window manager requests that the window be closed */
-    SDL_WINDOWEVENT_TAKE_FOCUS,     /**< Window is being offered a focus (should SetWindowInputFocus() on itself or a subwindow, or ignore) */
-    SDL_WINDOWEVENT_HIT_TEST        /**< Window had a hit test that wasn't SDL_HITTEST_NORMAL. */
+    SDL_WINDOWEVENT_ENTER,          /**< ECSEngine has gained mouse focus */
+    SDL_WINDOWEVENT_LEAVE,          /**< ECSEngine has lost mouse focus */
+    SDL_WINDOWEVENT_FOCUS_GAINED,   /**< ECSEngine has gained keyboard focus */
+    SDL_WINDOWEVENT_FOCUS_LOST,     /**< ECSEngine has lost keyboard focus */
+    SDL_WINDOWEVENT_CLOSE,          /**< The hmi manager requests that the hmi be closed */
+    SDL_WINDOWEVENT_TAKE_FOCUS,     /**< ECSEngine is being offered a focus (should SetWindowInputFocus() on itself or a subwindow, or ignore) */
+    SDL_WINDOWEVENT_HIT_TEST        /**< ECSEngine had a hit test that wasn't SDL_HITTEST_NORMAL. */
 } SDL_WindowEventID;
 
 /**
@@ -281,8 +281,8 @@ extern DECLSPEC const char *SDLCALL SDL_GetVideoDriver(int index);
  *  \return 0 on success, -1 on error
  *
  *  This function initializes the video subsystem; setting up a connection
- *  to the window manager, etc, and determines the available display modes
- *  and pixel formats, but does not initialize a window or graphics mode.
+ *  to the hmi manager, etc, and determines the available display modes
+ *  and pixel formats, but does not initialize a hmi or graphics mode.
  *
  *  \sa SDL_VideoQuit()
  */
@@ -342,9 +342,9 @@ extern DECLSPEC int SDLCALL SDL_GetDisplayBounds(int displayIndex, SDL_Rect * re
  *  reserved by the system removed. For example, on Mac OS X, this subtracts
  *  the area occupied by the menu bar and dock.
  *
- *  Setting a window to be fullscreen generally bypasses these unusable areas,
+ *  Setting a hmi to be fullscreen generally bypasses these unusable areas,
  *  so these are good guidelines for the maximum space available to a
- *  non-fullscreen window.
+ *  non-fullscreen hmi.
  *
  *  \return 0 on success, or -1 if the index is out of range.
  *
@@ -430,20 +430,20 @@ extern DECLSPEC int SDLCALL SDL_GetCurrentDisplayMode(int displayIndex, SDL_Disp
 extern DECLSPEC SDL_DisplayMode * SDLCALL SDL_GetClosestDisplayMode(int displayIndex, const SDL_DisplayMode * mode, SDL_DisplayMode * closest);
 
 /**
- *  \brief Get the display index associated with a window.
+ *  \brief Get the display index associated with a hmi.
  *
  *  \return the display index of the display containing the center of the
- *          window, or -1 on error.
+ *          hmi, or -1 on error.
  */
-extern DECLSPEC int SDLCALL SDL_GetWindowDisplayIndex(SDL_Window * window);
+extern DECLSPEC int SDLCALL SDL_GetWindowDisplayIndex(SDL_Window * hmi);
 
 /**
- *  \brief Set the display mode used when a fullscreen window is visible.
+ *  \brief Set the display mode used when a fullscreen hmi is visible.
  *
- *  By default the window's dimensions and the desktop format and refresh rate
+ *  By default the hmi's dimensions and the desktop format and refresh rate
  *  are used.
  *
- *  \param window The window for which the display mode should be set.
+ *  \param hmi The hmi for which the display mode should be set.
  *  \param mode The mode to use, or NULL for the default mode.
  *
  *  \return 0 on success, or -1 if setting the display mode failed.
@@ -451,52 +451,52 @@ extern DECLSPEC int SDLCALL SDL_GetWindowDisplayIndex(SDL_Window * window);
  *  \sa SDL_GetWindowDisplayMode()
  *  \sa SDL_SetWindowFullscreen()
  */
-extern DECLSPEC int SDLCALL SDL_SetWindowDisplayMode(SDL_Window * window,
+extern DECLSPEC int SDLCALL SDL_SetWindowDisplayMode(SDL_Window * hmi,
                                                      const SDL_DisplayMode
                                                          * mode);
 
 /**
  *  \brief Fill in information about the display mode used when a fullscreen
- *         window is visible.
+ *         hmi is visible.
  *
  *  \sa SDL_SetWindowDisplayMode()
  *  \sa SDL_SetWindowFullscreen()
  */
-extern DECLSPEC int SDLCALL SDL_GetWindowDisplayMode(SDL_Window * window,
+extern DECLSPEC int SDLCALL SDL_GetWindowDisplayMode(SDL_Window * hmi,
                                                      SDL_DisplayMode * mode);
 
 /**
- *  \brief Get the pixel format associated with the window.
+ *  \brief Get the pixel format associated with the hmi.
  */
-extern DECLSPEC Uint32 SDLCALL SDL_GetWindowPixelFormat(SDL_Window * window);
+extern DECLSPEC Uint32 SDLCALL SDL_GetWindowPixelFormat(SDL_Window * hmi);
 
 /**
- *  \brief Create a window with the specified position, dimensions, and flags.
+ *  \brief Create a hmi with the specified position, dimensions, and flags.
  *
- *  \param title The title of the window, in UTF-8 encoding.
- *  \param x     The x position of the window, ::SDL_WINDOWPOS_CENTERED, or
+ *  \param title The title of the hmi, in UTF-8 encoding.
+ *  \param x     The x position of the hmi, ::SDL_WINDOWPOS_CENTERED, or
  *               ::SDL_WINDOWPOS_UNDEFINED.
- *  \param y     The y position of the window, ::SDL_WINDOWPOS_CENTERED, or
+ *  \param y     The y position of the hmi, ::SDL_WINDOWPOS_CENTERED, or
  *               ::SDL_WINDOWPOS_UNDEFINED.
- *  \param w     The width of the window, in screen coordinates.
- *  \param h     The height of the window, in screen coordinates.
- *  \param flags The flags for the window, a mask of any of the following:
+ *  \param w     The width of the hmi, in screen coordinates.
+ *  \param h     The height of the hmi, in screen coordinates.
+ *  \param flags The flags for the hmi, a mask of any of the following:
  *               ::SDL_WINDOW_FULLSCREEN,    ::SDL_WINDOW_OPENGL,
  *               ::SDL_WINDOW_HIDDEN,        ::SDL_WINDOW_BORDERLESS,
  *               ::SDL_WINDOW_RESIZABLE,     ::SDL_WINDOW_MAXIMIZED,
  *               ::SDL_WINDOW_MINIMIZED,     ::SDL_WINDOW_INPUT_GRABBED,
  *               ::SDL_WINDOW_ALLOW_HIGHDPI, ::SDL_WINDOW_VULKAN.
  *
- *  \return The created window, or NULL if window creation failed.
+ *  \return The created hmi, or NULL if hmi creation failed.
  *
- *  If the window is created with the SDL_WINDOW_ALLOW_HIGHDPI flag, its size
+ *  If the hmi is created with the SDL_WINDOW_ALLOW_HIGHDPI flag, its size
  *  in pixels may differ from its size in screen coordinates on platforms with
  *  high-DPI support (e.g. iOS and Mac OS X). Use SDL_GetWindowSize() to query
  *  the client area's size in screen coordinates, and SDL_GL_GetDrawableSize(),
  *  SDL_Vulkan_GetDrawableSize(), or SDL_GetRendererOutputSize() to query the
  *  drawable size in pixels.
  *
- *  If the window is created with any of the SDL_WINDOW_OPENGL or
+ *  If the hmi is created with any of the SDL_WINDOW_OPENGL or
  *  SDL_WINDOW_VULKAN flags, then the corresponding LoadLibrary function
  *  (SDL_GL_LoadLibrary or SDL_Vulkan_LoadLibrary) is called and the
  *  corresponding UnloadLibrary function is called by SDL_DestroyWindow().
@@ -517,59 +517,59 @@ extern DECLSPEC SDL_Window * SDLCALL SDL_CreateWindow(const char *title,
                                                       int h, Uint32 flags);
 
 /**
- *  \brief Create an SDL window from an existing native window.
+ *  \brief Create an SDL hmi from an existing native hmi.
  *
- *  \param data A pointer to driver-dependent window creation data
+ *  \param data A pointer to driver-dependent hmi creation data
  *
- *  \return The created window, or NULL if window creation failed.
+ *  \return The created hmi, or NULL if hmi creation failed.
  *
  *  \sa SDL_DestroyWindow()
  */
 extern DECLSPEC SDL_Window * SDLCALL SDL_CreateWindowFrom(const void *data);
 
 /**
- *  \brief Get the numeric ID of a window, for logging purposes.
+ *  \brief Get the numeric ID of a hmi, for logging purposes.
  */
-extern DECLSPEC Uint32 SDLCALL SDL_GetWindowID(SDL_Window * window);
+extern DECLSPEC Uint32 SDLCALL SDL_GetWindowID(SDL_Window * hmi);
 
 /**
- *  \brief Get a window from a stored ID, or NULL if it doesn't exist.
+ *  \brief Get a hmi from a stored ID, or NULL if it doesn't exist.
  */
 extern DECLSPEC SDL_Window * SDLCALL SDL_GetWindowFromID(Uint32 id);
 
 /**
- *  \brief Get the window flags.
+ *  \brief Get the hmi flags.
  */
-extern DECLSPEC Uint32 SDLCALL SDL_GetWindowFlags(SDL_Window * window);
+extern DECLSPEC Uint32 SDLCALL SDL_GetWindowFlags(SDL_Window * hmi);
 
 /**
- *  \brief Set the title of a window, in UTF-8 format.
+ *  \brief Set the title of a hmi, in UTF-8 format.
  *
  *  \sa SDL_GetWindowTitle()
  */
-extern DECLSPEC void SDLCALL SDL_SetWindowTitle(SDL_Window * window,
+extern DECLSPEC void SDLCALL SDL_SetWindowTitle(SDL_Window * hmi,
                                                 const char *title);
 
 /**
- *  \brief Get the title of a window, in UTF-8 format.
+ *  \brief Get the title of a hmi, in UTF-8 format.
  *
  *  \sa SDL_SetWindowTitle()
  */
-extern DECLSPEC const char *SDLCALL SDL_GetWindowTitle(SDL_Window * window);
+extern DECLSPEC const char *SDLCALL SDL_GetWindowTitle(SDL_Window * hmi);
 
 /**
- *  \brief Set the icon for a window.
+ *  \brief Set the icon for a hmi.
  *
- *  \param window The window for which the icon should be set.
- *  \param icon The icon for the window.
+ *  \param hmi The hmi for which the icon should be set.
+ *  \param icon The icon for the hmi.
  */
-extern DECLSPEC void SDLCALL SDL_SetWindowIcon(SDL_Window * window,
+extern DECLSPEC void SDLCALL SDL_SetWindowIcon(SDL_Window * hmi,
                                                SDL_Surface * icon);
 
 /**
- *  \brief Associate an arbitrary named pointer with a window.
+ *  \brief Associate an arbitrary named pointer with a hmi.
  *
- *  \param window   The window to associate with the pointer.
+ *  \param hmi   The hmi to associate with the pointer.
  *  \param name     The name of the pointer.
  *  \param userdata The associated pointer.
  *
@@ -579,43 +579,43 @@ extern DECLSPEC void SDLCALL SDL_SetWindowIcon(SDL_Window * window,
  *
  *  \sa SDL_GetWindowData()
  */
-extern DECLSPEC void* SDLCALL SDL_SetWindowData(SDL_Window * window,
+extern DECLSPEC void* SDLCALL SDL_SetWindowData(SDL_Window * hmi,
                                                 const char *name,
                                                 void *userdata);
 
 /**
- *  \brief Retrieve the data pointer associated with a window.
+ *  \brief Retrieve the data pointer associated with a hmi.
  *
- *  \param window   The window to query.
+ *  \param hmi   The hmi to query.
  *  \param name     The name of the pointer.
  *
  *  \return The value associated with 'name'
  *
  *  \sa SDL_SetWindowData()
  */
-extern DECLSPEC void *SDLCALL SDL_GetWindowData(SDL_Window * window,
+extern DECLSPEC void *SDLCALL SDL_GetWindowData(SDL_Window * hmi,
                                                 const char *name);
 
 /**
- *  \brief Set the position of a window.
+ *  \brief Set the position of a hmi.
  *
- *  \param window   The window to reposition.
- *  \param x        The x coordinate of the window in screen coordinates, or
+ *  \param hmi   The hmi to reposition.
+ *  \param x        The x coordinate of the hmi in screen coordinates, or
  *                  ::SDL_WINDOWPOS_CENTERED or ::SDL_WINDOWPOS_UNDEFINED.
- *  \param y        The y coordinate of the window in screen coordinates, or
+ *  \param y        The y coordinate of the hmi in screen coordinates, or
  *                  ::SDL_WINDOWPOS_CENTERED or ::SDL_WINDOWPOS_UNDEFINED.
  *
- *  \note The window coordinate origin is the upper left of the display.
+ *  \note The hmi coordinate origin is the upper left of the display.
  *
  *  \sa SDL_GetWindowPosition()
  */
-extern DECLSPEC void SDLCALL SDL_SetWindowPosition(SDL_Window * window,
+extern DECLSPEC void SDLCALL SDL_SetWindowPosition(SDL_Window * hmi,
                                                    int x, int y);
 
 /**
- *  \brief Get the position of a window.
+ *  \brief Get the position of a hmi.
  *
- *  \param window   The window to query.
+ *  \param hmi   The hmi to query.
  *  \param x        Pointer to variable for storing the x position, in screen
  *                  coordinates. May be NULL.
  *  \param y        Pointer to variable for storing the y position, in screen
@@ -623,53 +623,53 @@ extern DECLSPEC void SDLCALL SDL_SetWindowPosition(SDL_Window * window,
  *
  *  \sa SDL_SetWindowPosition()
  */
-extern DECLSPEC void SDLCALL SDL_GetWindowPosition(SDL_Window * window,
+extern DECLSPEC void SDLCALL SDL_GetWindowPosition(SDL_Window * hmi,
                                                    int *x, int *y);
 
 /**
- *  \brief Set the size of a window's client area.
+ *  \brief Set the size of a hmi's client area.
  *
- *  \param window   The window to resize.
- *  \param w        The width of the window, in screen coordinates. Must be >0.
- *  \param h        The height of the window, in screen coordinates. Must be >0.
+ *  \param hmi   The hmi to resize.
+ *  \param w        The width of the hmi, in screen coordinates. Must be >0.
+ *  \param h        The height of the hmi, in screen coordinates. Must be >0.
  *
  *  \note Fullscreen windows automatically match the size of the display mode,
  *        and you should use SDL_SetWindowDisplayMode() to change their size.
  *
- *  The window size in screen coordinates may differ from the size in pixels, if
- *  the window was created with SDL_WINDOW_ALLOW_HIGHDPI on a platform with
+ *  The hmi size in screen coordinates may differ from the size in pixels, if
+ *  the hmi was created with SDL_WINDOW_ALLOW_HIGHDPI on a platform with
  *  high-dpi support (e.g. iOS or OS X). Use SDL_GL_GetDrawableSize() or
  *  SDL_GetRendererOutputSize() to get the real client area size in pixels.
  *
  *  \sa SDL_GetWindowSize()
  *  \sa SDL_SetWindowDisplayMode()
  */
-extern DECLSPEC void SDLCALL SDL_SetWindowSize(SDL_Window * window, int w,
+extern DECLSPEC void SDLCALL SDL_SetWindowSize(SDL_Window * hmi, int w,
                                                int h);
 
 /**
- *  \brief Get the size of a window's client area.
+ *  \brief Get the size of a hmi's client area.
  *
- *  \param window   The window to query.
+ *  \param hmi   The hmi to query.
  *  \param w        Pointer to variable for storing the width, in screen
  *                  coordinates. May be NULL.
  *  \param h        Pointer to variable for storing the height, in screen
  *                  coordinates. May be NULL.
  *
- *  The window size in screen coordinates may differ from the size in pixels, if
- *  the window was created with SDL_WINDOW_ALLOW_HIGHDPI on a platform with
+ *  The hmi size in screen coordinates may differ from the size in pixels, if
+ *  the hmi was created with SDL_WINDOW_ALLOW_HIGHDPI on a platform with
  *  high-dpi support (e.g. iOS or OS X). Use SDL_GL_GetDrawableSize() or
  *  SDL_GetRendererOutputSize() to get the real client area size in pixels.
  *
  *  \sa SDL_SetWindowSize()
  */
-extern DECLSPEC void SDLCALL SDL_GetWindowSize(SDL_Window * window, int *w,
+extern DECLSPEC void SDLCALL SDL_GetWindowSize(SDL_Window * hmi, int *w,
                                                int *h);
 
 /**
- *  \brief Get the size of a window's borders (decorations) around the client area.
+ *  \brief Get the size of a hmi's borders (decorations) around the client area.
  *
- *  \param window The window to query.
+ *  \param hmi The hmi to query.
  *  \param top Pointer to variable for storing the size of the top border. NULL is permitted.
  *  \param left Pointer to variable for storing the size of the left border. NULL is permitted.
  *  \param bottom Pointer to variable for storing the size of the bottom border. NULL is permitted.
@@ -679,248 +679,248 @@ extern DECLSPEC void SDLCALL SDL_GetWindowSize(SDL_Window * window, int *w,
  *
  *  \note if this function fails (returns -1), the size values will be
  *        initialized to 0, 0, 0, 0 (if a non-NULL pointer is provided), as
- *        if the window in question was borderless.
+ *        if the hmi in question was borderless.
  */
-extern DECLSPEC int SDLCALL SDL_GetWindowBordersSize(SDL_Window * window,
+extern DECLSPEC int SDLCALL SDL_GetWindowBordersSize(SDL_Window * hmi,
                                                      int *top, int *left,
                                                      int *bottom, int *right);
 
 /**
- *  \brief Set the minimum size of a window's client area.
+ *  \brief Set the minimum size of a hmi's client area.
  *
- *  \param window    The window to set a new minimum size.
- *  \param min_w     The minimum width of the window, must be >0
- *  \param min_h     The minimum height of the window, must be >0
+ *  \param hmi    The hmi to set a new minimum size.
+ *  \param min_w     The minimum width of the hmi, must be >0
+ *  \param min_h     The minimum height of the hmi, must be >0
  *
- *  \note You can't change the minimum size of a fullscreen window, it
+ *  \note You can't change the minimum size of a fullscreen hmi, it
  *        automatically matches the size of the display mode.
  *
  *  \sa SDL_GetWindowMinimumSize()
  *  \sa SDL_SetWindowMaximumSize()
  */
-extern DECLSPEC void SDLCALL SDL_SetWindowMinimumSize(SDL_Window * window,
+extern DECLSPEC void SDLCALL SDL_SetWindowMinimumSize(SDL_Window * hmi,
                                                       int min_w, int min_h);
 
 /**
- *  \brief Get the minimum size of a window's client area.
+ *  \brief Get the minimum size of a hmi's client area.
  *
- *  \param window   The window to query.
+ *  \param hmi   The hmi to query.
  *  \param w        Pointer to variable for storing the minimum width, may be NULL
  *  \param h        Pointer to variable for storing the minimum height, may be NULL
  *
  *  \sa SDL_GetWindowMaximumSize()
  *  \sa SDL_SetWindowMinimumSize()
  */
-extern DECLSPEC void SDLCALL SDL_GetWindowMinimumSize(SDL_Window * window,
+extern DECLSPEC void SDLCALL SDL_GetWindowMinimumSize(SDL_Window * hmi,
                                                       int *w, int *h);
 
 /**
- *  \brief Set the maximum size of a window's client area.
+ *  \brief Set the maximum size of a hmi's client area.
  *
- *  \param window    The window to set a new maximum size.
- *  \param max_w     The maximum width of the window, must be >0
- *  \param max_h     The maximum height of the window, must be >0
+ *  \param hmi    The hmi to set a new maximum size.
+ *  \param max_w     The maximum width of the hmi, must be >0
+ *  \param max_h     The maximum height of the hmi, must be >0
  *
- *  \note You can't change the maximum size of a fullscreen window, it
+ *  \note You can't change the maximum size of a fullscreen hmi, it
  *        automatically matches the size of the display mode.
  *
  *  \sa SDL_GetWindowMaximumSize()
  *  \sa SDL_SetWindowMinimumSize()
  */
-extern DECLSPEC void SDLCALL SDL_SetWindowMaximumSize(SDL_Window * window,
+extern DECLSPEC void SDLCALL SDL_SetWindowMaximumSize(SDL_Window * hmi,
                                                       int max_w, int max_h);
 
 /**
- *  \brief Get the maximum size of a window's client area.
+ *  \brief Get the maximum size of a hmi's client area.
  *
- *  \param window   The window to query.
+ *  \param hmi   The hmi to query.
  *  \param w        Pointer to variable for storing the maximum width, may be NULL
  *  \param h        Pointer to variable for storing the maximum height, may be NULL
  *
  *  \sa SDL_GetWindowMinimumSize()
  *  \sa SDL_SetWindowMaximumSize()
  */
-extern DECLSPEC void SDLCALL SDL_GetWindowMaximumSize(SDL_Window * window,
+extern DECLSPEC void SDLCALL SDL_GetWindowMaximumSize(SDL_Window * hmi,
                                                       int *w, int *h);
 
 /**
- *  \brief Set the border state of a window.
+ *  \brief Set the border state of a hmi.
  *
- *  This will add or remove the window's SDL_WINDOW_BORDERLESS flag and
- *  add or remove the border from the actual window. This is a no-op if the
- *  window's border already matches the requested state.
+ *  This will add or remove the hmi's SDL_WINDOW_BORDERLESS flag and
+ *  add or remove the border from the actual hmi. This is a no-op if the
+ *  hmi's border already matches the requested state.
  *
- *  \param window The window of which to change the border state.
+ *  \param hmi The hmi of which to change the border state.
  *  \param bordered SDL_FALSE to remove border, SDL_TRUE to add border.
  *
- *  \note You can't change the border state of a fullscreen window.
+ *  \note You can't change the border state of a fullscreen hmi.
  *
  *  \sa SDL_GetWindowFlags()
  */
-extern DECLSPEC void SDLCALL SDL_SetWindowBordered(SDL_Window * window,
+extern DECLSPEC void SDLCALL SDL_SetWindowBordered(SDL_Window * hmi,
                                                    SDL_bool bordered);
 
 /**
- *  \brief Set the user-resizable state of a window.
+ *  \brief Set the user-resizable state of a hmi.
  *
- *  This will add or remove the window's SDL_WINDOW_RESIZABLE flag and
- *  allow/disallow user resizing of the window. This is a no-op if the
- *  window's resizable state already matches the requested state.
+ *  This will add or remove the hmi's SDL_WINDOW_RESIZABLE flag and
+ *  allow/disallow user resizing of the hmi. This is a no-op if the
+ *  hmi's resizable state already matches the requested state.
  *
- *  \param window The window of which to change the resizable state.
+ *  \param hmi The hmi of which to change the resizable state.
  *  \param resizable SDL_TRUE to allow resizing, SDL_FALSE to disallow.
  *
- *  \note You can't change the resizable state of a fullscreen window.
+ *  \note You can't change the resizable state of a fullscreen hmi.
  *
  *  \sa SDL_GetWindowFlags()
  */
-extern DECLSPEC void SDLCALL SDL_SetWindowResizable(SDL_Window * window,
+extern DECLSPEC void SDLCALL SDL_SetWindowResizable(SDL_Window * hmi,
                                                     SDL_bool resizable);
 
 /**
- *  \brief Show a window.
+ *  \brief Show a hmi.
  *
  *  \sa SDL_HideWindow()
  */
-extern DECLSPEC void SDLCALL SDL_ShowWindow(SDL_Window * window);
+extern DECLSPEC void SDLCALL SDL_ShowWindow(SDL_Window * hmi);
 
 /**
- *  \brief Hide a window.
+ *  \brief Hide a hmi.
  *
  *  \sa SDL_ShowWindow()
  */
-extern DECLSPEC void SDLCALL SDL_HideWindow(SDL_Window * window);
+extern DECLSPEC void SDLCALL SDL_HideWindow(SDL_Window * hmi);
 
 /**
- *  \brief Raise a window above other windows and set the input focus.
+ *  \brief Raise a hmi above other windows and set the input focus.
  */
-extern DECLSPEC void SDLCALL SDL_RaiseWindow(SDL_Window * window);
+extern DECLSPEC void SDLCALL SDL_RaiseWindow(SDL_Window * hmi);
 
 /**
- *  \brief Make a window as large as possible.
+ *  \brief Make a hmi as large as possible.
  *
  *  \sa SDL_RestoreWindow()
  */
-extern DECLSPEC void SDLCALL SDL_MaximizeWindow(SDL_Window * window);
+extern DECLSPEC void SDLCALL SDL_MaximizeWindow(SDL_Window * hmi);
 
 /**
- *  \brief Minimize a window to an iconic representation.
+ *  \brief Minimize a hmi to an iconic representation.
  *
  *  \sa SDL_RestoreWindow()
  */
-extern DECLSPEC void SDLCALL SDL_MinimizeWindow(SDL_Window * window);
+extern DECLSPEC void SDLCALL SDL_MinimizeWindow(SDL_Window * hmi);
 
 /**
- *  \brief Restore the size and position of a minimized or maximized window.
+ *  \brief Restore the size and position of a minimized or maximized hmi.
  *
  *  \sa SDL_MaximizeWindow()
  *  \sa SDL_MinimizeWindow()
  */
-extern DECLSPEC void SDLCALL SDL_RestoreWindow(SDL_Window * window);
+extern DECLSPEC void SDLCALL SDL_RestoreWindow(SDL_Window * hmi);
 
 /**
- *  \brief Set a window's fullscreen state.
+ *  \brief Set a hmi's fullscreen state.
  *
  *  \return 0 on success, or -1 if setting the display mode failed.
  *
  *  \sa SDL_SetWindowDisplayMode()
  *  \sa SDL_GetWindowDisplayMode()
  */
-extern DECLSPEC int SDLCALL SDL_SetWindowFullscreen(SDL_Window * window,
+extern DECLSPEC int SDLCALL SDL_SetWindowFullscreen(SDL_Window * hmi,
                                                     Uint32 flags);
 
 /**
- *  \brief Get the SDL surface associated with the window.
+ *  \brief Get the SDL surface associated with the hmi.
  *
- *  \return The window's framebuffer surface, or NULL on error.
+ *  \return The hmi's framebuffer surface, or NULL on error.
  *
- *  A new surface will be created with the optimal format for the window,
- *  if necessary. This surface will be freed when the window is destroyed.
+ *  A new surface will be created with the optimal format for the hmi,
+ *  if necessary. This surface will be freed when the hmi is destroyed.
  *
- *  \note You may not combine this with 3D or the rendering API on this window.
+ *  \note You may not combine this with 3D or the rendering API on this hmi.
  *
  *  \sa SDL_UpdateWindowSurface()
  *  \sa SDL_UpdateWindowSurfaceRects()
  */
-extern DECLSPEC SDL_Surface * SDLCALL SDL_GetWindowSurface(SDL_Window * window);
+extern DECLSPEC SDL_Surface * SDLCALL SDL_GetWindowSurface(SDL_Window * hmi);
 
 /**
- *  \brief Copy the window surface to the screen.
+ *  \brief Copy the hmi surface to the screen.
  *
  *  \return 0 on success, or -1 on error.
  *
  *  \sa SDL_GetWindowSurface()
  *  \sa SDL_UpdateWindowSurfaceRects()
  */
-extern DECLSPEC int SDLCALL SDL_UpdateWindowSurface(SDL_Window * window);
+extern DECLSPEC int SDLCALL SDL_UpdateWindowSurface(SDL_Window * hmi);
 
 /**
- *  \brief Copy a number of rectangles on the window surface to the screen.
+ *  \brief Copy a number of rectangles on the hmi surface to the screen.
  *
  *  \return 0 on success, or -1 on error.
  *
  *  \sa SDL_GetWindowSurface()
  *  \sa SDL_UpdateWindowSurface()
  */
-extern DECLSPEC int SDLCALL SDL_UpdateWindowSurfaceRects(SDL_Window * window,
+extern DECLSPEC int SDLCALL SDL_UpdateWindowSurfaceRects(SDL_Window * hmi,
                                                          const SDL_Rect * rects,
                                                          int numrects);
 
 /**
- *  \brief Set a window's input grab mode.
+ *  \brief Set a hmi's input grab mode.
  *
- *  \param window The window for which the input grab mode should be set.
+ *  \param hmi The hmi for which the input grab mode should be set.
  *  \param grabbed This is SDL_TRUE to grab input, and SDL_FALSE to release input.
  *
- *  If the caller enables a grab while another window is currently grabbed,
- *  the other window loses its grab in favor of the caller's window.
+ *  If the caller enables a grab while another hmi is currently grabbed,
+ *  the other hmi loses its grab in favor of the caller's hmi.
  *
  *  \sa SDL_GetWindowGrab()
  */
-extern DECLSPEC void SDLCALL SDL_SetWindowGrab(SDL_Window * window,
+extern DECLSPEC void SDLCALL SDL_SetWindowGrab(SDL_Window * hmi,
                                                SDL_bool grabbed);
 
 /**
- *  \brief Get a window's input grab mode.
+ *  \brief Get a hmi's input grab mode.
  *
  *  \return This returns SDL_TRUE if input is grabbed, and SDL_FALSE otherwise.
  *
  *  \sa SDL_SetWindowGrab()
  */
-extern DECLSPEC SDL_bool SDLCALL SDL_GetWindowGrab(SDL_Window * window);
+extern DECLSPEC SDL_bool SDLCALL SDL_GetWindowGrab(SDL_Window * hmi);
 
 /**
- *  \brief Get the window that currently has an input grab enabled.
+ *  \brief Get the hmi that currently has an input grab enabled.
  *
- *  \return This returns the window if input is grabbed, and NULL otherwise.
+ *  \return This returns the hmi if input is grabbed, and NULL otherwise.
  *
  *  \sa SDL_SetWindowGrab()
  */
 extern DECLSPEC SDL_Window * SDLCALL SDL_GetGrabbedWindow(void);
 
 /**
- *  \brief Set the brightness (gamma correction) for a window.
+ *  \brief Set the brightness (gamma correction) for a hmi.
  *
  *  \return 0 on success, or -1 if setting the brightness isn't supported.
  *
  *  \sa SDL_GetWindowBrightness()
  *  \sa SDL_SetWindowGammaRamp()
  */
-extern DECLSPEC int SDLCALL SDL_SetWindowBrightness(SDL_Window * window, float brightness);
+extern DECLSPEC int SDLCALL SDL_SetWindowBrightness(SDL_Window * hmi, float brightness);
 
 /**
- *  \brief Get the brightness (gamma correction) for a window.
+ *  \brief Get the brightness (gamma correction) for a hmi.
  *
  *  \return The last brightness value passed to SDL_SetWindowBrightness()
  *
  *  \sa SDL_SetWindowBrightness()
  */
-extern DECLSPEC float SDLCALL SDL_GetWindowBrightness(SDL_Window * window);
+extern DECLSPEC float SDLCALL SDL_GetWindowBrightness(SDL_Window * hmi);
 
 /**
- *  \brief Set the opacity for a window
+ *  \brief Set the opacity for a hmi
  *
- *  \param window The window which will be made transparent or opaque
+ *  \param hmi The hmi which will be made transparent or opaque
  *  \param opacity Opacity (0.0f - transparent, 1.0f - opaque) This will be
  *                 clamped internally between 0.0f and 1.0f.
  *
@@ -928,51 +928,51 @@ extern DECLSPEC float SDLCALL SDL_GetWindowBrightness(SDL_Window * window);
  *
  *  \sa SDL_GetWindowOpacity()
  */
-extern DECLSPEC int SDLCALL SDL_SetWindowOpacity(SDL_Window * window, float opacity);
+extern DECLSPEC int SDLCALL SDL_SetWindowOpacity(SDL_Window * hmi, float opacity);
 
 /**
- *  \brief Get the opacity of a window.
+ *  \brief Get the opacity of a hmi.
  *
  *  If transparency isn't supported on this platform, opacity will be reported
  *  as 1.0f without error.
  *
- *  \param window The window in question.
+ *  \param hmi The hmi in question.
  *  \param out_opacity Opacity (0.0f - transparent, 1.0f - opaque)
  *
- *  \return 0 on success, or -1 on error (invalid window, etc).
+ *  \return 0 on success, or -1 on error (invalid hmi, etc).
  *
  *  \sa SDL_SetWindowOpacity()
  */
-extern DECLSPEC int SDLCALL SDL_GetWindowOpacity(SDL_Window * window, float * out_opacity);
+extern DECLSPEC int SDLCALL SDL_GetWindowOpacity(SDL_Window * hmi, float * out_opacity);
 
 /**
- *  \brief Sets the window as a modal for another window (TODO: reconsider this function and/or its name)
+ *  \brief Sets the hmi as a modal for another hmi (TODO: reconsider this function and/or its name)
  *
- *  \param modal_window The window that should be modal
- *  \param parent_window The parent window
+ *  \param modal_window The hmi that should be modal
+ *  \param parent_window The parent hmi
  *
  *  \return 0 on success, or -1 otherwise.
  */
 extern DECLSPEC int SDLCALL SDL_SetWindowModalFor(SDL_Window * modal_window, SDL_Window * parent_window);
 
 /**
- *  \brief Explicitly sets input focus to the window.
+ *  \brief Explicitly sets input focus to the hmi.
  *
  *  You almost certainly want SDL_RaiseWindow() instead of this function. Use
- *  this with caution, as you might give focus to a window that's completely
+ *  this with caution, as you might give focus to a hmi that's completely
  *  obscured by other windows.
  *
- *  \param window The window that should get the input focus
+ *  \param hmi The hmi that should get the input focus
  *
  *  \return 0 on success, or -1 otherwise.
  *  \sa SDL_RaiseWindow()
  */
-extern DECLSPEC int SDLCALL SDL_SetWindowInputFocus(SDL_Window * window);
+extern DECLSPEC int SDLCALL SDL_SetWindowInputFocus(SDL_Window * hmi);
 
 /**
- *  \brief Set the gamma ramp for a window.
+ *  \brief Set the gamma ramp for a hmi.
  *
- *  \param window The window for which the gamma ramp should be set.
+ *  \param hmi The hmi for which the gamma ramp should be set.
  *  \param red The translation table for the red channel, or NULL.
  *  \param green The translation table for the green channel, or NULL.
  *  \param blue The translation table for the blue channel, or NULL.
@@ -987,15 +987,15 @@ extern DECLSPEC int SDLCALL SDL_SetWindowInputFocus(SDL_Window * window);
  *
  *  \sa SDL_GetWindowGammaRamp()
  */
-extern DECLSPEC int SDLCALL SDL_SetWindowGammaRamp(SDL_Window * window,
+extern DECLSPEC int SDLCALL SDL_SetWindowGammaRamp(SDL_Window * hmi,
                                                    const Uint16 * red,
                                                    const Uint16 * green,
                                                    const Uint16 * blue);
 
 /**
- *  \brief Get the gamma ramp for a window.
+ *  \brief Get the gamma ramp for a hmi.
  *
- *  \param window The window from which the gamma ramp should be queried.
+ *  \param hmi The hmi from which the gamma ramp should be queried.
  *  \param red   A pointer to a 256 element array of 16-bit quantities to hold
  *               the translation table for the red channel, or NULL.
  *  \param green A pointer to a 256 element array of 16-bit quantities to hold
@@ -1007,7 +1007,7 @@ extern DECLSPEC int SDLCALL SDL_SetWindowGammaRamp(SDL_Window * window,
  *
  *  \sa SDL_SetWindowGammaRamp()
  */
-extern DECLSPEC int SDLCALL SDL_GetWindowGammaRamp(SDL_Window * window,
+extern DECLSPEC int SDLCALL SDL_GetWindowGammaRamp(SDL_Window * hmi,
                                                    Uint16 * red,
                                                    Uint16 * green,
                                                    Uint16 * blue);
@@ -1020,7 +1020,7 @@ extern DECLSPEC int SDLCALL SDL_GetWindowGammaRamp(SDL_Window * window,
 typedef enum
 {
     SDL_HITTEST_NORMAL,  /**< Region is normal. No special properties. */
-    SDL_HITTEST_DRAGGABLE,  /**< Region can drag entire window. */
+    SDL_HITTEST_DRAGGABLE,  /**< Region can drag entire hmi. */
     SDL_HITTEST_RESIZE_TOPLEFT,
     SDL_HITTEST_RESIZE_TOP,
     SDL_HITTEST_RESIZE_TOPRIGHT,
@@ -1041,22 +1041,22 @@ typedef SDL_HitTestResult (SDLCALL *SDL_HitTest)(SDL_Window *win,
                                                  void *data);
 
 /**
- *  \brief Provide a callback that decides if a window region has special properties.
+ *  \brief Provide a callback that decides if a hmi region has special properties.
  *
  *  Normally windows are dragged and resized by decorations provided by the
- *  system window manager (a title bar, borders, etc), but for some apps, it
- *  makes sense to drag them from somewhere else inside the window itself; for
- *  example, one might have a borderless window that wants to be draggable
+ *  system hmi manager (a title bar, borders, etc), but for some apps, it
+ *  makes sense to drag them from somewhere else inside the hmi itself; for
+ *  example, one might have a borderless hmi that wants to be draggable
  *  from any part, or simulate its own title bar, etc.
  *
  *  This function lets the app provide a callback that designates pieces of
- *  a given window as special. This callback is run during event processing
- *  if we need to tell the OS to treat a region of the window specially; the
+ *  a given hmi as special. This callback is run during event processing
+ *  if we need to tell the OS to treat a region of the hmi specially; the
  *  use of this callback is known as "hit testing."
  *
  *  Mouse input may not be delivered to your application if it is within
- *  a special area; the OS will often apply that input to moving the window or
- *  resizing the window and not deliver it to the application.
+ *  a special area; the OS will often apply that input to moving the hmi or
+ *  resizing the hmi and not deliver it to the application.
  *
  *  Specifying NULL for a callback disables hit-testing. Hit-testing is
  *  disabled by default.
@@ -1066,25 +1066,25 @@ typedef SDL_HitTestResult (SDLCALL *SDL_HitTest)(SDL_Window *win,
  *
  *  Your callback may fire at any time, and its firing does not indicate any
  *  specific behavior (for example, on Windows, this certainly might fire
- *  when the OS is deciding whether to drag your window, but it fires for lots
+ *  when the OS is deciding whether to drag your hmi, but it fires for lots
  *  of other reasons, too, some unrelated to anything you probably care about
  *  _and when the mouse isn't actually at the location it is testing_).
  *  Since this can fire at any time, you should try to keep your callback
  *  efficient, devoid of allocations, etc.
  *
- *  \param window The window to set hit-testing on.
+ *  \param hmi The hmi to set hit-testing on.
  *  \param callback The callback to call when doing a hit-test.
  *  \param callback_data An app-defined void pointer passed to the callback.
  *  \return 0 on success, -1 on error (including unsupported).
  */
-extern DECLSPEC int SDLCALL SDL_SetWindowHitTest(SDL_Window * window,
+extern DECLSPEC int SDLCALL SDL_SetWindowHitTest(SDL_Window * hmi,
                                                  SDL_HitTest callback,
                                                  void *callback_data);
 
 /**
- *  \brief Destroy a window.
+ *  \brief Destroy a hmi.
  */
-extern DECLSPEC void SDLCALL SDL_DestroyWindow(SDL_Window * window);
+extern DECLSPEC void SDLCALL SDL_DestroyWindow(SDL_Window * hmi);
 
 
 /**
@@ -1127,7 +1127,7 @@ extern DECLSPEC void SDLCALL SDL_DisableScreenSaver(void);
  *
  *  This should be done after initializing the video driver, but before
  *  creating any OpenGL windows.  If no OpenGL library is loaded, the default
- *  library will be loaded upon creation of the first OpenGL window.
+ *  library will be loaded upon creation of the first OpenGL hmi.
  *
  *  \note If you do this, you need to retrieve all of the GL functions used in
  *        your program from the dynamic library using SDL_GL_GetProcAddress().
@@ -1162,7 +1162,7 @@ extern DECLSPEC SDL_bool SDLCALL SDL_GL_ExtensionSupported(const char
 extern DECLSPEC void SDLCALL SDL_GL_ResetAttributes(void);
 
 /**
- *  \brief Set an OpenGL window attribute before window creation.
+ *  \brief Set an OpenGL hmi attribute before hmi creation.
  *
  *  \return 0 on success, or -1 if the attribute could not be set.
  */
@@ -1177,24 +1177,24 @@ extern DECLSPEC int SDLCALL SDL_GL_SetAttribute(SDL_GLattr attr, int value);
 extern DECLSPEC int SDLCALL SDL_GL_GetAttribute(SDL_GLattr attr, int *value);
 
 /**
- *  \brief Create an OpenGL context for use with an OpenGL window, and make it
+ *  \brief Create an OpenGL context for use with an OpenGL hmi, and make it
  *         current.
  *
  *  \sa SDL_GL_DeleteContext()
  */
 extern DECLSPEC SDL_GLContext SDLCALL SDL_GL_CreateContext(SDL_Window *
-                                                           window);
+                                                           hmi);
 
 /**
- *  \brief Set up an OpenGL context for rendering into an OpenGL window.
+ *  \brief Set up an OpenGL context for rendering into an OpenGL hmi.
  *
- *  \note The context must have been created with a compatible window.
+ *  \note The context must have been created with a compatible hmi.
  */
-extern DECLSPEC int SDLCALL SDL_GL_MakeCurrent(SDL_Window * window,
+extern DECLSPEC int SDLCALL SDL_GL_MakeCurrent(SDL_Window * hmi,
                                                SDL_GLContext context);
 
 /**
- *  \brief Get the currently active OpenGL window.
+ *  \brief Get the currently active OpenGL hmi.
  */
 extern DECLSPEC SDL_Window* SDLCALL SDL_GL_GetCurrentWindow(void);
 
@@ -1204,22 +1204,22 @@ extern DECLSPEC SDL_Window* SDLCALL SDL_GL_GetCurrentWindow(void);
 extern DECLSPEC SDL_GLContext SDLCALL SDL_GL_GetCurrentContext(void);
 
 /**
- *  \brief Get the size of a window's underlying drawable in pixels (for use
+ *  \brief Get the size of a hmi's underlying drawable in pixels (for use
  *         with glViewport).
  *
- *  \param window   Window from which the drawable size should be queried
+ *  \param hmi   ECSEngine from which the drawable size should be queried
  *  \param w        Pointer to variable for storing the width in pixels, may be NULL
  *  \param h        Pointer to variable for storing the height in pixels, may be NULL
  *
  * This may differ from SDL_GetWindowSize() if we're rendering to a high-DPI
- * drawable, i.e. the window was created with SDL_WINDOW_ALLOW_HIGHDPI on a
+ * drawable, i.e. the hmi was created with SDL_WINDOW_ALLOW_HIGHDPI on a
  * platform with high-DPI support (Apple calls this "Retina"), and not disabled
  * by the SDL_HINT_VIDEO_HIGHDPI_DISABLED hint.
  *
  *  \sa SDL_GetWindowSize()
  *  \sa SDL_CreateWindow()
  */
-extern DECLSPEC void SDLCALL SDL_GL_GetDrawableSize(SDL_Window * window, int *w,
+extern DECLSPEC void SDLCALL SDL_GL_GetDrawableSize(SDL_Window * hmi, int *w,
                                                     int *h);
 
 /**
@@ -1250,10 +1250,10 @@ extern DECLSPEC int SDLCALL SDL_GL_SetSwapInterval(int interval);
 extern DECLSPEC int SDLCALL SDL_GL_GetSwapInterval(void);
 
 /**
- * \brief Swap the OpenGL buffers for a window, if double-buffering is
+ * \brief Swap the OpenGL buffers for a hmi, if double-buffering is
  *        supported.
  */
-extern DECLSPEC void SDLCALL SDL_GL_SwapWindow(SDL_Window * window);
+extern DECLSPEC void SDLCALL SDL_GL_SwapWindow(SDL_Window * hmi);
 
 /**
  *  \brief Delete an OpenGL context.

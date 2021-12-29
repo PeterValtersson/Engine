@@ -4,23 +4,23 @@
 #include "DLL_Export.h"
 #include <IResourceHandler.h>
 #include <Graphics/Renderer_Interface.h>
-#include <Window_Interface.h>
+#include <HMI.h>
 #include <ECS/Components/EntityComponentFactory.h>
 
 namespace ECSEngine
 {
 	struct Sub_Systems {
-		std::shared_ptr<Window::Window_Interface>		window;
-		std::shared_ptr<Renderer::Renderer_Interface>	renderer;
-		std::shared_ptr<ResourceHandler::IResourceArchive>	resource_archive;
-		std::shared_ptr<ResourceHandler::IResourceHandler>	resource_handler;
+		std::shared_ptr<ECSEngine::HMI>	hmi;
+		std::shared_ptr<Renderer::Renderer_Interface> renderer;
+		std::shared_ptr<ResourceHandler::IResourceArchive> resource_archive;
+		std::shared_ptr<ResourceHandler::IResourceHandler> resource_handler;
 	};
 	struct EntityComponents {
-		std::shared_ptr<ECS::EntityFactory>		entity_factory;
-		std::shared_ptr<ECS::TransformComponent>	transform_component;
-		std::shared_ptr<ECS::PropertyComponent>		property_component;
-		std::shared_ptr<ECS::SceneComponent>		scene_component;
-		std::shared_ptr<ECS::ViewpointComponent>	camera_component;
+		std::shared_ptr<ECS::EntityFactory>	 entity_factory;
+		std::shared_ptr<ECS::TransformComponent> transform_component;
+		std::shared_ptr<ECS::PropertyComponent> property_component;
+		std::shared_ptr<ECS::SceneComponent> scene_component;
+		std::shared_ptr<ECS::ViewpointComponent> camera_component;
 
 	};
 	struct Init_Info {
@@ -29,11 +29,11 @@ namespace ECSEngine
 		EntityComponents entity_components;
 	};
 
-	class ECSEngine 
+	class Engine 
 	{
 	public:
-		DECLSPEC_ENGINE static std::unique_ptr<ECSEngine> create(const Init_Info& init_info );
-		virtual ~ECSEngine()
+		DECLSPEC_ENGINE static std::unique_ptr<Engine> create(const Init_Info& init_info );
+		virtual ~Engine()
 		{}
 
 		virtual void start(bool threaded = false)noexcept = 0;

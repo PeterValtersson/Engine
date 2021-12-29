@@ -1,27 +1,27 @@
-#include "Engine.h"
+#include "EngineImpl.h"
 #include <Utilities/Profiler/Profiler.h>
 
-ECSEngine::Engine::Engine( const Init_Info& init_info ) : sub_systems( init_info.sub_systems ), entity_components( init_info.entity_components ), running( false )
+ECSEngine::EngineImpl::EngineImpl( const Init_Info& init_info ) : sub_systems( init_info.sub_systems ), entity_components( init_info.entity_components ), running( false )
 {
 
 	init_sub_systems( init_info.mode );
 	init_managers();
 }
 
-ECSEngine::Engine::~Engine()
+ECSEngine::EngineImpl::~EngineImpl()
 {
 	running = false;
 	if ( thread.joinable() )
 		thread.join();
 }
 
-void ECSEngine::Engine::start( bool threaded ) noexcept
+void ECSEngine::EngineImpl::start( bool threaded ) noexcept
 {
 	PROFILE;
 	sub_systems.renderer->Start();
-	sub_systems.window->MapActionButton( 0, Window::KeyCode::KeyEscape );
-	sub_systems.window->BindKeyPressCallback( 0, { this, &Engine::quit } );
-	sub_systems.window->BindOnQuitEvent( { this, &Engine::quit } );
+	sub_systems.hmi->MapActionButton( 0, ECSEngine::KeyCode::KeyEscape );
+	sub_systems.hmi->BindKeyPressCallback( 0, { this, &EngineImpl::quit } );
+	sub_systems.hmi->BindOnQuitEvent( { this, &EngineImpl::quit } );
 
 	running = true;
 	if ( threaded )
@@ -37,37 +37,37 @@ void ECSEngine::Engine::start( bool threaded ) noexcept
 			frame();
 }
 
-ECSEngine::EntityComponents ECSEngine::Engine::get_entity_components()
+ECSEngine::EntityComponents ECSEngine::EngineImpl::get_entity_components()
 {
 	return entity_components;
 }
 
-ECSEngine::Sub_Systems ECSEngine::Engine::get_sub_systems()
+ECSEngine::Sub_Systems ECSEngine::EngineImpl::get_sub_systems()
 {
 	return sub_systems;
 }
 
-const std::vector<std::weak_ptr<ECS::ComponentReflection>> ECSEngine::Engine::get_component_reflections() const
+const std::vector<std::weak_ptr<ECS::ComponentReflection>> ECSEngine::EngineImpl::get_component_reflections() const
 {
 	std::vector<std::weak_ptr<ECS::ComponentReflection>> ret;
 	ret.push_back(entity_components.transform_component);
 	return ret;
 }
 
-void ECSEngine::Engine::frame() noexcept
+void ECSEngine::EngineImpl::frame() noexcept
 {
 	PROFILE;
-	sub_systems.window->Frame();
+	sub_systems.hmi->Frame();
 }
 
-void ECSEngine::Engine::quit() noexcept
+void ECSEngine::EngineImpl::quit() noexcept
 {
 	running = false;
 }
 
-void ECSEngine::Engine::init_sub_systems( ResourceHandler::AccessMode mode )
+void ECSEngine::EngineImpl::init_sub_systems( ResourceHandler::AccessMode mode )
 {
-	if ( !sub_systems.window )
+	if ( !sub_systems.hmi )
 		init_window();
 	if ( !sub_systems.renderer )
 		init_renderer();
@@ -78,7 +78,7 @@ void ECSEngine::Engine::init_sub_systems( ResourceHandler::AccessMode mode )
 
 }
 
-void ECSEngine::Engine::init_managers()
+void ECSEngine::EngineImpl::init_managers()
 {
 	if ( !entity_components.entity_factory )
 		init_entity_manager();
@@ -93,52 +93,52 @@ void ECSEngine::Engine::init_managers()
 
 }
 
-void ECSEngine::Engine::init_window()
+void ECSEngine::EngineImpl::init_window()
 {
-	sub_systems.window = Window::Window_Interface::create_window( Window::Window_Type::SDL, {} );
+	sub_systems.hmi = ECSEngine::HMI::create_window( ECSEngine::HMIType::SDL, {} );
 }
 
-void ECSEngine::Engine::init_renderer()
+void ECSEngine::EngineImpl::init_renderer()
 {
 	Renderer::RendererInitializationInfo ii;
-	auto res = sub_systems.window->GetResolution();
+	auto res = sub_systems.hmi->GetResolution();
 	ii.resolution = *( Renderer::Resolution* )&res;
-	ii.windowHandle = sub_systems.window->GetWindowHandle();
+	ii.windowHandle = sub_systems.hmi->GetWindowHandle();
 	sub_systems.renderer = Renderer::Renderer_Interface::Create_Renderer( Renderer::Renderer_Backend::DIRECTX11, ii );
 }
 
-void ECSEngine::Engine::init_resource_archive( ResourceHandler::AccessMode mode )
+void ECSEngine::EngineImpl::init_resource_archive( ResourceHandler::AccessMode mode )
 {
 	sub_systems.resource_archive = ResourceHandler::IResourceArchive::create_binary_archive( "data.dat", mode );
 }
 
-void ECSEngine::Engine::init_resource_handler( ResourceHandler::AccessMode mode )
+void ECSEngine::EngineImpl::init_resource_handler( ResourceHandler::AccessMode mode )
 {
 	sub_systems.resource_handler = ResourceHandler::IResourceHandler::create( mode, sub_systems.resource_archive );
 	ResourceHandler::IResourceHandler::set( sub_systems.resource_handler );
 }
 
-void ECSEngine::Engine::init_entity_manager()
+void ECSEngine::EngineImpl::init_entity_manager()
 {
 	entity_components.entity_factory = ECS::EntityFactory::create_factory();
 }
 
-void ECSEngine::Engine::init_transform_manager()
+void ECSEngine::EngineImpl::init_transform_manager()
 {
 	entity_components.transform_component = ECS::EntityComponentFactory::create_transform_component( { entity_components.entity_factory } );
 }
 
-void ECSEngine::Engine::init_property_manager()
+void ECSEngine::EngineImpl::init_property_manager()
 {
 	entity_components.property_component = ECS::EntityComponentFactory::create_property_manager( { entity_components.entity_factory } );
 }
 
-void ECSEngine::Engine::init_scene_manager()
+void ECSEngine::EngineImpl::init_scene_manager()
 {
 	entity_components.scene_component = ECS::EntityComponentFactory::create_scene_component( { entity_components.entity_factory } );
 }
 
-void ECSEngine::Engine::init_camera_manager()
+void ECSEngine::EngineImpl::init_camera_manager()
 {
 	entity_components.camera_component = ECS::EntityComponentFactory::create_viewpoint_component( { entity_components.entity_factory, entity_components.transform_component } );
 }

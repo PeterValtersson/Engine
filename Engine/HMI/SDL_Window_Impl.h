@@ -2,7 +2,7 @@
 #define _WINDOW_SDL_WINDOW_H_
 
 #pragma once
-#include <Window_Interface.h>
+#include <HMI.h>
 #include <SDL.h>
 #include <map>
 #include <vector>
@@ -11,7 +11,7 @@
 #include <Utilities/Flags.h>
 #include <Utilities/Event.h>
 
-namespace Window
+namespace ECSEngine
 {
 	enum class KeyState : uint32_t {
 		NIL = 0,
@@ -20,9 +20,9 @@ namespace Window
 		UP = 4,
 		DOUBLE = 1 << 4
 	};
-	ENUM_FLAGS( Window::KeyState );
+	ENUM_FLAGS( ECSEngine::KeyState );
 	 
-	class SDL_Window_Impl : public Window_Interface{
+	class SDL_Window_Impl : public HMI {
 	public:
 		SDL_Window_Impl( const InitializationInfo& init_info );
 		virtual ~SDL_Window_Impl();
@@ -81,8 +81,8 @@ namespace Window
 			*/
 		void EventSwitch( SDL_Event ev )noexcept;
 
-		/*Window related things*/
-		SDL_Window* window;
+		/*ECSEngine related things*/
+		SDL_Window* hmi;
 		InitializationInfo init_info;
 		
 		/*input related things*/

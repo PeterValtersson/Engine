@@ -194,6 +194,9 @@
     <ProjectReference Include="..\Engine\Engine.vcxproj">
       <Project>{0e59049c-407e-40ac-b7e5-5052b99f455f}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\HMI\HMI.vcxproj">
+      <Project>{32a997ee-35d4-4ec8-9ae6-417844f10337}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

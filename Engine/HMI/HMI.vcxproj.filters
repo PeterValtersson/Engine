@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Window_Interface.cpp">
+    <ClCompile Include="HMI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SDL_Window_Impl.cpp">
@@ -23,10 +23,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\Window_Interface.h">
+    <ClInclude Include="..\include\HMI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\DLL_Export_Window.h">
+    <ClInclude Include="..\include\DLL_Export_HMI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SDL_Window_Impl.h">

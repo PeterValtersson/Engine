@@ -101,7 +101,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_WINDOW_EXPORT_</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_HMI_EXPORT_</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
@@ -179,11 +179,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="SDL_Window_Impl.cpp" />
-    <ClCompile Include="Window_Interface.cpp" />
+    <ClCompile Include="HMI.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\DLL_Export_Window.h" />
-    <ClInclude Include="..\include\Window_Interface.h" />
+    <ClInclude Include="..\include\DLL_Export_HMI.h" />
+    <ClInclude Include="..\include\HMI.h" />
     <ClInclude Include="SDL_Window_Impl.h" />
   </ItemGroup>
   <ItemGroup>

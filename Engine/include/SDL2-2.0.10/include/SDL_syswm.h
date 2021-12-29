@@ -22,7 +22,7 @@
 /**
  *  \file SDL_syswm.h
  *
- *  Include file for SDL custom system window manager hooks.
+ *  Include file for SDL custom system hmi manager hooks.
  */
 
 #ifndef SDL_syswm_h_
@@ -37,8 +37,8 @@
  *  \brief SDL_syswm.h
  *
  *  Your application has access to a special type of event ::SDL_SYSWMEVENT,
- *  which contains window-manager specific information and arrives whenever
- *  an unhandled window event occurs.  This event is ignored by default, but
+ *  which contains hmi-manager specific information and arrives whenever
+ *  an unhandled hmi event occurs.  This event is ignored by default, but
  *  you can enable it with SDL_EventState().
  */
 struct SDL_SysWMinfo;
@@ -56,7 +56,7 @@ struct SDL_SysWMinfo;
 #include <Inspectable.h>
 #endif
 
-/* This is the structure for custom window manager events */
+/* This is the structure for custom hmi manager events */
 #if defined(SDL_VIDEO_DRIVER_X11)
 #if defined(__APPLE__) && defined(__MACH__)
 /* conflicts with Quickdraw.h */
@@ -143,7 +143,7 @@ struct SDL_SysWMmsg
     {
 #if defined(SDL_VIDEO_DRIVER_WINDOWS)
         struct {
-            HWND hwnd;                  /**< The window for the message */
+            HWND hwnd;                  /**< The hmi for the message */
             UINT msg;                   /**< The type of message */
             WPARAM wParam;              /**< WORD message parameter */
             LPARAM lParam;              /**< LONG message parameter */
@@ -166,21 +166,21 @@ struct SDL_SysWMmsg
                  error: empty struct has size 0 in C, size 1 in C++
              */
             int dummy;
-            /* No Cocoa window events yet */
+            /* No Cocoa hmi events yet */
         } cocoa;
 #endif
 #if defined(SDL_VIDEO_DRIVER_UIKIT)
         struct
         {
             int dummy;
-            /* No UIKit window events yet */
+            /* No UIKit hmi events yet */
         } uikit;
 #endif
 #if defined(SDL_VIDEO_DRIVER_VIVANTE)
         struct
         {
             int dummy;
-            /* No Vivante window events yet */
+            /* No Vivante hmi events yet */
         } vivante;
 #endif
         /* Can't have an empty union */
@@ -189,7 +189,7 @@ struct SDL_SysWMmsg
 };
 
 /**
- *  The custom window manager information structure.
+ *  The custom hmi manager information structure.
  *
  *  When this structure is returned, it holds information about which
  *  low level system it is using, and will be one of SDL_SYSWM_TYPE.
@@ -203,8 +203,8 @@ struct SDL_SysWMinfo
 #if defined(SDL_VIDEO_DRIVER_WINDOWS)
         struct
         {
-            HWND window;                /**< The window handle */
-            HDC hdc;                    /**< The window device context */
+            HWND hmi;                /**< The hmi handle */
+            HDC hdc;                    /**< The hmi device context */
             HINSTANCE hinstance;        /**< The instance handle */
         } win;
 #endif
@@ -218,14 +218,14 @@ struct SDL_SysWMinfo
         struct
         {
             Display *display;           /**< The X11 display */
-            Window window;              /**< The X11 window */
+            Window window;              /**< The X11 hmi */
         } x11;
 #endif
 #if defined(SDL_VIDEO_DRIVER_DIRECTFB)
         struct
         {
             IDirectFB *dfb;             /**< The directfb main interface */
-            IDirectFBWindow *window;    /**< The directfb window handle */
+            IDirectFBWindow *window;    /**< The directfb hmi handle */
             IDirectFBSurface *surface;  /**< The directfb client surface */
         } dfb;
 #endif
@@ -233,9 +233,9 @@ struct SDL_SysWMinfo
         struct
         {
 #if defined(__OBJC__) && defined(__has_feature) && __has_feature(objc_arc)
-            NSWindow __unsafe_unretained *window; /**< The Cocoa window */
+            NSWindow __unsafe_unretained *window; /**< The Cocoa hmi */
 #else
-            NSWindow *window;                     /**< The Cocoa window */
+            NSWindow *window;                     /**< The Cocoa hmi */
 #endif
         } cocoa;
 #endif
@@ -243,9 +243,9 @@ struct SDL_SysWMinfo
         struct
         {
 #if defined(__OBJC__) && defined(__has_feature) && __has_feature(objc_arc)
-            UIWindow __unsafe_unretained *window; /**< The UIKit window */
+            UIWindow __unsafe_unretained *window; /**< The UIKit hmi */
 #else
-            UIWindow *window;                     /**< The UIKit window */
+            UIWindow *window;                     /**< The UIKit hmi */
 #endif
             GLuint framebuffer; /**< The GL view's Framebuffer Object. It must be bound when rendering to the screen using GL. */
             GLuint colorbuffer; /**< The GL view's color Renderbuffer Object. It must be bound when SDL_GL_SwapWindow is called. */
@@ -257,7 +257,7 @@ struct SDL_SysWMinfo
         {
             struct wl_display *display;            /**< Wayland display */
             struct wl_surface *surface;            /**< Wayland surface */
-            struct wl_shell_surface *shell_surface; /**< Wayland shell_surface (window manager handle) */
+            struct wl_shell_surface *shell_surface; /**< Wayland shell_surface (hmi manager handle) */
         } wl;
 #endif
 #if defined(SDL_VIDEO_DRIVER_MIR)  /* no longer available, left for API/ABI compatibility. Remove in 2.1! */
@@ -296,11 +296,11 @@ typedef struct SDL_SysWMinfo SDL_SysWMinfo;
 
 /* Function prototypes */
 /**
- *  \brief This function allows access to driver-dependent window information.
+ *  \brief This function allows access to driver-dependent hmi information.
  *
- *  \param window The window about which information is being requested
+ *  \param hmi The hmi about which information is being requested
  *  \param info This structure must be initialized with the SDL version, and is
- *              then filled in with information about the given window.
+ *              then filled in with information about the given hmi.
  *
  *  \return SDL_TRUE if the function is implemented and the version member of
  *          the \c info struct is valid, SDL_FALSE otherwise.
@@ -309,10 +309,10 @@ typedef struct SDL_SysWMinfo SDL_SysWMinfo;
  *  \code
  *  SDL_SysWMinfo info;
  *  SDL_VERSION(&info.version);
- *  if ( SDL_GetWindowWMInfo(window, &info) ) { ... }
+ *  if ( SDL_GetWindowWMInfo(hmi, &info) ) { ... }
  *  \endcode
  */
-extern DECLSPEC SDL_bool SDLCALL SDL_GetWindowWMInfo(SDL_Window * window,
+extern DECLSPEC SDL_bool SDLCALL SDL_GetWindowWMInfo(SDL_Window * hmi,
                                                      SDL_SysWMinfo * info);
 
 

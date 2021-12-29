@@ -158,13 +158,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="EngineImpl.cpp" />
     <ClCompile Include="ECSEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\DLL_Export.h" />
     <ClInclude Include="..\include\ECSEngine.h" />
-    <ClInclude Include="Engine.h" />
+    <ClInclude Include="EngineImpl.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\EntityComponentSystem\EntityComponentSystem\EntityComponentSystem\EntityComponentSystem.vcxproj">
@@ -182,7 +182,7 @@
     <ProjectReference Include="..\..\..\Utilities\Utilities\Profiler\Profiler.vcxproj">
       <Project>{bae4cf46-4926-4052-a0b5-290947489c07}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Window\Window.vcxproj">
+    <ProjectReference Include="..\HMI\HMI.vcxproj">
       <Project>{32a997ee-35d4-4ec8-9ae6-417844f10337}</Project>
     </ProjectReference>
   </ItemGroup>

@@ -36,7 +36,7 @@ extern "C" {
 
 /** \file SDL_shape.h
  *
- * Header file for the shaped window API.
+ * Header file for the shaped hmi API.
  */
 
 #define SDL_NONSHAPEABLE_WINDOW -1
@@ -44,37 +44,37 @@ extern "C" {
 #define SDL_WINDOW_LACKS_SHAPE -3
 
 /**
- *  \brief Create a window that can be shaped with the specified position, dimensions, and flags.
+ *  \brief Create a hmi that can be shaped with the specified position, dimensions, and flags.
  *
- *  \param title The title of the window, in UTF-8 encoding.
- *  \param x     The x position of the window, ::SDL_WINDOWPOS_CENTERED, or
+ *  \param title The title of the hmi, in UTF-8 encoding.
+ *  \param x     The x position of the hmi, ::SDL_WINDOWPOS_CENTERED, or
  *               ::SDL_WINDOWPOS_UNDEFINED.
- *  \param y     The y position of the window, ::SDL_WINDOWPOS_CENTERED, or
+ *  \param y     The y position of the hmi, ::SDL_WINDOWPOS_CENTERED, or
  *               ::SDL_WINDOWPOS_UNDEFINED.
- *  \param w     The width of the window.
- *  \param h     The height of the window.
- *  \param flags The flags for the window, a mask of SDL_WINDOW_BORDERLESS with any of the following:
+ *  \param w     The width of the hmi.
+ *  \param h     The height of the hmi.
+ *  \param flags The flags for the hmi, a mask of SDL_WINDOW_BORDERLESS with any of the following:
  *               ::SDL_WINDOW_OPENGL,     ::SDL_WINDOW_INPUT_GRABBED,
  *               ::SDL_WINDOW_HIDDEN,     ::SDL_WINDOW_RESIZABLE,
  *               ::SDL_WINDOW_MAXIMIZED,  ::SDL_WINDOW_MINIMIZED,
  *       ::SDL_WINDOW_BORDERLESS is always set, and ::SDL_WINDOW_FULLSCREEN is always unset.
  *
- *  \return The window created, or NULL if window creation failed.
+ *  \return The hmi created, or NULL if hmi creation failed.
  *
  *  \sa SDL_DestroyWindow()
  */
 extern DECLSPEC SDL_Window * SDLCALL SDL_CreateShapedWindow(const char *title,unsigned int x,unsigned int y,unsigned int w,unsigned int h,Uint32 flags);
 
 /**
- * \brief Return whether the given window is a shaped window.
+ * \brief Return whether the given hmi is a shaped hmi.
  *
- * \param window The window to query for being shaped.
+ * \param hmi The hmi to query for being shaped.
  *
- * \return SDL_TRUE if the window is a window that can be shaped, SDL_FALSE if the window is unshaped or NULL.
+ * \return SDL_TRUE if the hmi is a hmi that can be shaped, SDL_FALSE if the hmi is unshaped or NULL.
  *
  * \sa SDL_CreateShapedWindow
  */
-extern DECLSPEC SDL_bool SDLCALL SDL_IsShapedWindow(const SDL_Window *window);
+extern DECLSPEC SDL_bool SDLCALL SDL_IsShapedWindow(const SDL_Window *hmi);
 
 /** \brief An enum denoting the specific type of contents present in an SDL_WindowShapeParams union. */
 typedef enum {
@@ -92,48 +92,48 @@ typedef enum {
 
 /** \brief A union containing parameters for shaped windows. */
 typedef union {
-    /** \brief A cutoff alpha value for binarization of the window shape's alpha channel. */
+    /** \brief A cutoff alpha value for binarization of the hmi shape's alpha channel. */
     Uint8 binarizationCutoff;
     SDL_Color colorKey;
 } SDL_WindowShapeParams;
 
 /** \brief A struct that tags the SDL_WindowShapeParams union with an enum describing the type of its contents. */
 typedef struct SDL_WindowShapeMode {
-    /** \brief The mode of these window-shape parameters. */
+    /** \brief The mode of these hmi-shape parameters. */
     WindowShapeMode mode;
-    /** \brief Window-shape parameters. */
+    /** \brief ECSEngine-shape parameters. */
     SDL_WindowShapeParams parameters;
 } SDL_WindowShapeMode;
 
 /**
- * \brief Set the shape and parameters of a shaped window.
+ * \brief Set the shape and parameters of a shaped hmi.
  *
- * \param window The shaped window whose parameters should be set.
- * \param shape A surface encoding the desired shape for the window.
- * \param shape_mode The parameters to set for the shaped window.
+ * \param hmi The shaped hmi whose parameters should be set.
+ * \param shape A surface encoding the desired shape for the hmi.
+ * \param shape_mode The parameters to set for the shaped hmi.
  *
  * \return 0 on success, SDL_INVALID_SHAPE_ARGUMENT on an invalid shape argument, or SDL_NONSHAPEABLE_WINDOW
- *           if the SDL_Window given does not reference a valid shaped window.
+ *           if the SDL_Window given does not reference a valid shaped hmi.
  *
  * \sa SDL_WindowShapeMode
  * \sa SDL_GetShapedWindowMode.
  */
-extern DECLSPEC int SDLCALL SDL_SetWindowShape(SDL_Window *window,SDL_Surface *shape,SDL_WindowShapeMode *shape_mode);
+extern DECLSPEC int SDLCALL SDL_SetWindowShape(SDL_Window *hmi,SDL_Surface *shape,SDL_WindowShapeMode *shape_mode);
 
 /**
- * \brief Get the shape parameters of a shaped window.
+ * \brief Get the shape parameters of a shaped hmi.
  *
- * \param window The shaped window whose parameters should be retrieved.
- * \param shape_mode An empty shape-mode structure to fill, or NULL to check whether the window has a shape.
+ * \param hmi The shaped hmi whose parameters should be retrieved.
+ * \param shape_mode An empty shape-mode structure to fill, or NULL to check whether the hmi has a shape.
  *
- * \return 0 if the window has a shape and, provided shape_mode was not NULL, shape_mode has been filled with the mode
- *           data, SDL_NONSHAPEABLE_WINDOW if the SDL_Window given is not a shaped window, or SDL_WINDOW_LACKS_SHAPE if
- *           the SDL_Window given is a shapeable window currently lacking a shape.
+ * \return 0 if the hmi has a shape and, provided shape_mode was not NULL, shape_mode has been filled with the mode
+ *           data, SDL_NONSHAPEABLE_WINDOW if the SDL_Window given is not a shaped hmi, or SDL_WINDOW_LACKS_SHAPE if
+ *           the SDL_Window given is a shapeable hmi currently lacking a shape.
  *
  * \sa SDL_WindowShapeMode
  * \sa SDL_SetWindowShape
  */
-extern DECLSPEC int SDLCALL SDL_GetShapedWindowMode(SDL_Window *window,SDL_WindowShapeMode *shape_mode);
+extern DECLSPEC int SDLCALL SDL_GetShapedWindowMode(SDL_Window *hmi,SDL_WindowShapeMode *shape_mode);
 
 /* Ends C function definitions when using C++ */
 #ifdef __cplusplus

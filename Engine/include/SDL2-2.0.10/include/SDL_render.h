@@ -159,25 +159,25 @@ extern DECLSPEC int SDLCALL SDL_GetRenderDriverInfo(int index,
                                                     SDL_RendererInfo * info);
 
 /**
- *  \brief Create a window and default renderer
+ *  \brief Create a hmi and default renderer
  *
- *  \param width    The width of the window
- *  \param height   The height of the window
- *  \param window_flags The flags used to create the window
- *  \param window   A pointer filled with the window, or NULL on error
+ *  \param width    The width of the hmi
+ *  \param height   The height of the hmi
+ *  \param window_flags The flags used to create the hmi
+ *  \param hmi   A pointer filled with the hmi, or NULL on error
  *  \param renderer A pointer filled with the renderer, or NULL on error
  *
  *  \return 0 on success, or -1 on error
  */
 extern DECLSPEC int SDLCALL SDL_CreateWindowAndRenderer(
                                 int width, int height, Uint32 window_flags,
-                                SDL_Window **window, SDL_Renderer **renderer);
+                                SDL_Window **hmi, SDL_Renderer **renderer);
 
 
 /**
- *  \brief Create a 2D rendering context for a window.
+ *  \brief Create a 2D rendering context for a hmi.
  *
- *  \param window The window where rendering is displayed.
+ *  \param hmi The hmi where rendering is displayed.
  *  \param index    The index of the rendering driver to initialize, or -1 to
  *                  initialize the first one supporting the requested flags.
  *  \param flags    ::SDL_RendererFlags.
@@ -188,7 +188,7 @@ extern DECLSPEC int SDLCALL SDL_CreateWindowAndRenderer(
  *  \sa SDL_GetRendererInfo()
  *  \sa SDL_DestroyRenderer()
  */
-extern DECLSPEC SDL_Renderer * SDLCALL SDL_CreateRenderer(SDL_Window * window,
+extern DECLSPEC SDL_Renderer * SDLCALL SDL_CreateRenderer(SDL_Window * hmi,
                                                int index, Uint32 flags);
 
 /**
@@ -204,9 +204,9 @@ extern DECLSPEC SDL_Renderer * SDLCALL SDL_CreateRenderer(SDL_Window * window,
 extern DECLSPEC SDL_Renderer * SDLCALL SDL_CreateSoftwareRenderer(SDL_Surface * surface);
 
 /**
- *  \brief Get the renderer associated with a window.
+ *  \brief Get the renderer associated with a hmi.
  */
-extern DECLSPEC SDL_Renderer * SDLCALL SDL_GetRenderer(SDL_Window * window);
+extern DECLSPEC SDL_Renderer * SDLCALL SDL_GetRenderer(SDL_Window * hmi);
 
 /**
  *  \brief Get information about a rendering context.
@@ -438,7 +438,7 @@ extern DECLSPEC int SDLCALL SDL_LockTexture(SDL_Texture * texture,
 extern DECLSPEC void SDLCALL SDL_UnlockTexture(SDL_Texture * texture);
 
 /**
- * \brief Determines whether a window supports the use of render targets
+ * \brief Determines whether a hmi supports the use of render targets
  *
  * \param renderer The renderer that will be checked
  *
@@ -480,7 +480,7 @@ extern DECLSPEC SDL_Texture * SDLCALL SDL_GetRenderTarget(SDL_Renderer *renderer
  *  output resolution doesn't have the same aspect ratio the output rendering will be
  *  centered within the output display.
  *
- *  If the output display is a window, mouse events in the window will be filtered
+ *  If the output display is a hmi, mouse events in the hmi will be filtered
  *  and scaled so they seem to arrive within the logical resolution.
  *
  *  \note If this function results in scaling or subpixel drawing by the
@@ -538,7 +538,7 @@ extern DECLSPEC SDL_bool SDLCALL SDL_RenderGetIntegerScale(SDL_Renderer * render
  *
  *  \return 0 on success, or -1 on error
  *
- *  \note If the window associated with the renderer is resized, the viewport is automatically reset.
+ *  \note If the hmi associated with the renderer is resized, the viewport is automatically reset.
  *
  *  \sa SDL_RenderGetViewport()
  *  \sa SDL_RenderSetLogicalSize()
@@ -1011,7 +1011,7 @@ extern DECLSPEC void SDLCALL SDL_RenderPresent(SDL_Renderer * renderer);
 extern DECLSPEC void SDLCALL SDL_DestroyTexture(SDL_Texture * texture);
 
 /**
- *  \brief Destroy the rendering context for a window and free associated
+ *  \brief Destroy the rendering context for a hmi and free associated
  *         textures.
  *
  *  \sa SDL_CreateRenderer()

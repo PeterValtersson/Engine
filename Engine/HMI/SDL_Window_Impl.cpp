@@ -4,14 +4,14 @@
 #include <Utilities/Profiler/Profiler.h>
 #pragma comment(lib, "SDL2.lib")
 #pragma comment(lib, "SDL2main.lib")
-Window::SDL_Window_Impl::SDL_Window_Impl( const InitializationInfo& init_info ) : curMouseX( 0 ), curMouseY( 0 ), relMouseX( 0 ), relMouseY( 0 ), init_info( init_info ), window( nullptr )
+ECSEngine::SDL_Window_Impl::SDL_Window_Impl( const InitializationInfo& init_info ) : curMouseX( 0 ), curMouseY( 0 ), relMouseX( 0 ), relMouseY( 0 ), init_info( init_info ), hmi( nullptr )
 {
 	if ( SDL_Init( SDL_INIT_VIDEO ) < 0 )
 		throw Could_Not_Create_Window( "Failed to initialize SDL subsystem" );
 	uint32_t createFlags = SDL_WINDOW_SHOWN | ( init_info.fullScreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0 );
-	window = SDL_CreateWindow( init_info.windowTitle.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, init_info.resolution.width, init_info.resolution.height, createFlags );
-	if ( window == nullptr )
-		throw Could_Not_Create_Window( "Failed to create window." );
+	hmi = SDL_CreateWindow( init_info.windowTitle.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, init_info.resolution.width, init_info.resolution.height, createFlags );
+	if ( hmi == nullptr )
+		throw Could_Not_Create_Window( "Failed to create hmi." );
 
 	/* Annoying to type abstraction of SDL... */
 	keyMapping = {
@@ -87,12 +87,12 @@ Window::SDL_Window_Impl::SDL_Window_Impl( const InitializationInfo& init_info ) 
 	timer.Tick();
 }
 
-Window::SDL_Window_Impl::~SDL_Window_Impl()
+ECSEngine::SDL_Window_Impl::~SDL_Window_Impl()
 {
 	SDL_Quit();
 }
 
-void Window::SDL_Window_Impl::Frame() noexcept
+void ECSEngine::SDL_Window_Impl::Frame() noexcept
 {
 	PROFILE;
 	timer.Tick();
@@ -104,53 +104,53 @@ void Window::SDL_Window_Impl::Frame() noexcept
 	while ( SDL_PollEvent( &ev ) )
 	{
 		/*for ( auto& onEvent : onEventCallbacks )
-			onEvent( &ev, SE::Window::WindowImplementation::WINDOW_IMPLEMENTATION_SDL );*/
+			onEvent( &ev, SE::ECSEngine::WindowImplementation::WINDOW_IMPLEMENTATION_SDL );*/
 		EventSwitch( ev );
 	}
 }
 
-void* Window::SDL_Window_Impl::GetWindowHandle() noexcept
+void* ECSEngine::SDL_Window_Impl::GetWindowHandle() noexcept
 {
 	PROFILE;
 	SDL_SysWMinfo sdlInfo;
 	SDL_VERSION( &sdlInfo.version );
-	SDL_GetWindowWMInfo( window, &sdlInfo );
-	return sdlInfo.info.win.window;
+	SDL_GetWindowWMInfo( hmi, &sdlInfo );
+	return sdlInfo.info.win.hmi;
 }
 
-void* Window::SDL_Window_Impl::GetWindowImplementation() noexcept
+void* ECSEngine::SDL_Window_Impl::GetWindowImplementation() noexcept
 {
-	return window;
+	return hmi;
 }
 
-bool Window::SDL_Window_Impl::ButtonDown( ActionButton actionButton ) const noexcept
+bool ECSEngine::SDL_Window_Impl::ButtonDown( ActionButton actionButton ) const noexcept
 {
 	return flag_has( GetKeyState( actionButton ), KeyState::DOWN );
 }
 
-bool Window::SDL_Window_Impl::ButtonPressed( ActionButton actionButton ) const noexcept
+bool ECSEngine::SDL_Window_Impl::ButtonPressed( ActionButton actionButton ) const noexcept
 {
 	auto state = GetKeyState( actionButton );
 	return !( state ^ KeyState::PRESSED ) || *( state & KeyState::DOUBLE );
 }
 
-bool Window::SDL_Window_Impl::ButtonUp( ActionButton actionButton ) const noexcept
+bool ECSEngine::SDL_Window_Impl::ButtonUp( ActionButton actionButton ) const noexcept
 {
 	return *( GetKeyState( actionButton ) & KeyState::UP );
 }
 
-bool Window::SDL_Window_Impl::ButtonDouble( ActionButton actionButton ) const noexcept
+bool ECSEngine::SDL_Window_Impl::ButtonDouble( ActionButton actionButton ) const noexcept
 {
 	return *( GetKeyState( actionButton ) & KeyState::DOUBLE );
 }
 
-void Window::SDL_Window_Impl::GetMousePos( int& x, int& y ) const noexcept
+void ECSEngine::SDL_Window_Impl::GetMousePos( int& x, int& y ) const noexcept
 {
 	x = curMouseX;
 	y = curMouseY;
 }
 
-void Window::SDL_Window_Impl::ToggleCursor( bool on ) noexcept
+void ECSEngine::SDL_Window_Impl::ToggleCursor( bool on ) noexcept
 {
 	if ( on )
 		while ( ShowCursor( on ) < 0 )
@@ -162,23 +162,23 @@ void Window::SDL_Window_Impl::ToggleCursor( bool on ) noexcept
 		}
 }
 
-void Window::SDL_Window_Impl::SetWindowTitle( const std::string& title ) noexcept
+void ECSEngine::SDL_Window_Impl::SetWindowTitle( const std::string& title ) noexcept
 {
 	init_info.windowTitle = title;
-	SDL_SetWindowTitle( window, title.c_str() );
+	SDL_SetWindowTitle( hmi, title.c_str() );
 }
 
-Window::Resolution Window::SDL_Window_Impl::GetResolution() const noexcept
+ECSEngine::Resolution ECSEngine::SDL_Window_Impl::GetResolution() const noexcept
 {
 	return init_info.resolution;
 }
 
-void Window::SDL_Window_Impl::MapActionButton( ActionButton actionButton, KeyCode key )
+void ECSEngine::SDL_Window_Impl::MapActionButton( ActionButton actionButton, KeyCode key )
 {
 	keyToAction[keyMapping[key]].push_back( actionButton );
 }
 
-void Window::SDL_Window_Impl::SetWindowInfo( const InitializationInfo& info )
+void ECSEngine::SDL_Window_Impl::SetWindowInfo( const InitializationInfo& info )
 {
 	bool changed = false;
 	if ( init_info.resolution.height != info.resolution.height )
@@ -195,71 +195,71 @@ void Window::SDL_Window_Impl::SetWindowInfo( const InitializationInfo& info )
 	{
 		init_info.fullScreen = info.fullScreen;
 		uint32_t createFlags = SDL_WINDOW_SHOWN | ( init_info.fullScreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0 );
-		SDL_SetWindowFullscreen( window, createFlags );
+		SDL_SetWindowFullscreen( hmi, createFlags );
 	}
 
 	if ( changed == true && init_info.fullScreen == false )
 	{
-		SDL_SetWindowSize( window, init_info.resolution.width, init_info.resolution.height );
+		SDL_SetWindowSize( hmi, init_info.resolution.width, init_info.resolution.height );
 	}
 }
 
-float Window::SDL_Window_Impl::GetDelta() const noexcept
+float ECSEngine::SDL_Window_Impl::GetDelta() const noexcept
 {
 	return timer.GetDelta();
 }
 
-void Window::SDL_Window_Impl::BindMouseClickCallback( ActionButton actionButton, const MouseClickCallback& callback ) noexcept
+void ECSEngine::SDL_Window_Impl::BindMouseClickCallback( ActionButton actionButton, const MouseClickCallback& callback ) noexcept
 {
 	actionToMouseClickCallback[actionButton] += callback;
 }
 
-void Window::SDL_Window_Impl::UnbindMouseClickCallback( ActionButton actionButton, const MouseClickCallback& callback ) noexcept
+void ECSEngine::SDL_Window_Impl::UnbindMouseClickCallback( ActionButton actionButton, const MouseClickCallback& callback ) noexcept
 {
 	actionToMouseClickCallback[actionButton] -= callback;
 }
 
-void Window::SDL_Window_Impl::BindMouseMotionCallback( const MouseMotionCallback& callback ) noexcept
+void ECSEngine::SDL_Window_Impl::BindMouseMotionCallback( const MouseMotionCallback& callback ) noexcept
 {
 	mouseMotionCallbacks += callback;
 }
 
-void Window::SDL_Window_Impl::UnbindMouseMotionCallback( const MouseMotionCallback& callback ) noexcept
+void ECSEngine::SDL_Window_Impl::UnbindMouseMotionCallback( const MouseMotionCallback& callback ) noexcept
 {
 	mouseMotionCallbacks -= callback;
 }
 
-void Window::SDL_Window_Impl::BindKeyPressCallback( ActionButton actionButton, const KeyCallback& callback ) noexcept
+void ECSEngine::SDL_Window_Impl::BindKeyPressCallback( ActionButton actionButton, const KeyCallback& callback ) noexcept
 {
 	actionToKeyPressCallback[actionButton] += callback;
 }
 
-void Window::SDL_Window_Impl::UnbindKeyPressCallback( ActionButton actionButton, const KeyCallback& callback ) noexcept
+void ECSEngine::SDL_Window_Impl::UnbindKeyPressCallback( ActionButton actionButton, const KeyCallback& callback ) noexcept
 {
 	actionToKeyPressCallback[actionButton] -= callback;
 }
 
-void Window::SDL_Window_Impl::BindKeyDownCallback( ActionButton actionButton, const KeyCallback& callback ) noexcept
+void ECSEngine::SDL_Window_Impl::BindKeyDownCallback( ActionButton actionButton, const KeyCallback& callback ) noexcept
 {
 	actionToKeyDownCallback[actionButton] += callback;
 }
 
-void Window::SDL_Window_Impl::UnbindKeyDownCallback( ActionButton actionButton, const KeyCallback& callback ) noexcept
+void ECSEngine::SDL_Window_Impl::UnbindKeyDownCallback( ActionButton actionButton, const KeyCallback& callback ) noexcept
 {
 	actionToKeyDownCallback[actionButton] -= callback;
 }
 
-void Window::SDL_Window_Impl::BindKeyUpCallback( ActionButton actionButton, const KeyCallback& callback ) noexcept
+void ECSEngine::SDL_Window_Impl::BindKeyUpCallback( ActionButton actionButton, const KeyCallback& callback ) noexcept
 {
 	actionToKeyUpCallback[actionButton] += callback;
 }
 
-void Window::SDL_Window_Impl::UnbindKeyUpCallback( ActionButton actionButton, const KeyCallback& callback ) noexcept
+void ECSEngine::SDL_Window_Impl::UnbindKeyUpCallback( ActionButton actionButton, const KeyCallback& callback ) noexcept
 {
 	actionToKeyUpCallback[actionButton] -= callback;
 }
 
-void Window::SDL_Window_Impl::UnbindAllCallbacks()noexcept
+void ECSEngine::SDL_Window_Impl::UnbindAllCallbacks()noexcept
 {
 	mouseMotionCallbacks.Clear();
 	for ( auto& e : actionToMouseClickCallback )
@@ -272,17 +272,17 @@ void Window::SDL_Window_Impl::UnbindAllCallbacks()noexcept
 		e.second.Clear();
 }
 
-void Window::SDL_Window_Impl::BindOnQuitEvent( const QuitCallback& callback ) noexcept
+void ECSEngine::SDL_Window_Impl::BindOnQuitEvent( const QuitCallback& callback ) noexcept
 {
 	quitEvent += callback;
 }
 
-void Window::SDL_Window_Impl::UnbindOnQuitEvent( const QuitCallback & callback ) noexcept
+void ECSEngine::SDL_Window_Impl::UnbindOnQuitEvent( const QuitCallback & callback ) noexcept
 {
 	quitEvent -= callback;
 }
 
-void Window::SDL_Window_Impl::EventSwitch( SDL_Event ev ) noexcept
+void ECSEngine::SDL_Window_Impl::EventSwitch( SDL_Event ev ) noexcept
 {
 	PROFILE;
 	switch ( ev.type )
@@ -404,7 +404,7 @@ void Window::SDL_Window_Impl::EventSwitch( SDL_Event ev ) noexcept
 	}
 }
 
-Window::KeyState Window::SDL_Window_Impl::GetKeyState( ActionButton actionButton ) const noexcept
+ECSEngine::KeyState ECSEngine::SDL_Window_Impl::GetKeyState( ActionButton actionButton ) const noexcept
 {
 	PROFILE;
 	//Find which KeyCode actionbutton is mapped to

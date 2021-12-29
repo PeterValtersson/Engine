@@ -4,11 +4,11 @@
 
 namespace ECSEngine
 {
-	class Engine :
-		public ECSEngine {
+	class EngineImpl :
+		public Engine {
 	public:
-		Engine( const Init_Info& init_info );
-		virtual ~Engine();
+		EngineImpl( const Init_Info& init_info );
+		virtual ~EngineImpl();
 
 		virtual void start( bool threaded = false )noexcept override;
 		

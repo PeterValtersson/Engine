@@ -16,7 +16,7 @@ public:
 		{
 			ECSEngine::Init_Info ii;
 			ii.sub_systems.resource_archive = ResourceHandler::IResourceArchive::create_binary_archive( "data.dat", ResourceHandler::AccessMode::read_write );
-			auto e = ECSEngine::ECSEngine::create( ii );
+			auto e = ECSEngine::Engine::create( ii );
 
 		}
 		catch ( Utilities::Exception & e )
@@ -31,7 +31,7 @@ public:
 		{
 			ECSEngine::Init_Info ii;
 			ii.sub_systems.resource_archive = ResourceHandler::IResourceArchive::create_binary_archive( "data.dat", ResourceHandler::AccessMode::read_write );
-			auto e = ECSEngine::ECSEngine::create( ii );
+			auto e = ECSEngine::Engine::create( ii );
 			e->start();
 		}
 		catch ( Utilities::Exception & e )
@@ -98,7 +98,7 @@ public:
 		{
 			ECSEngine::Init_Info ii;
 			ii.sub_systems.resource_archive = ResourceHandler::IResourceArchive::create_binary_archive( "data.dat", ResourceHandler::AccessMode::read_write );
-			auto e = ECSEngine::ECSEngine::create( ii );
+			auto e = ECSEngine::Engine::create( ii );
 			auto r = e->get_sub_systems().renderer;
 
 			struct Vertex{

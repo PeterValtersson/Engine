@@ -193,7 +193,7 @@ extern "C" {
  *    "0"       - Disable XRandR
  *    "1"       - Enable XRandR
  *
- *  By default SDL will not use XRandR because of window manager issues.
+ *  By default SDL will not use XRandR because of hmi manager issues.
  */
 #define SDL_HINT_VIDEO_X11_XRANDR           "SDL_VIDEO_X11_XRANDR"
 
@@ -206,7 +206,7 @@ extern "C" {
  *
  *  By default SDL will use _NET_WM_PING, but for applications that know they
  *  will not always be able to respond to ping requests in a timely manner they can
- *  turn it off to avoid the window manager thinking the app is hung.
+ *  turn it off to avoid the hmi manager thinking the app is hung.
  *  The hint is checked in CreateWindow.
  */
 #define SDL_HINT_VIDEO_X11_NET_WM_PING      "SDL_VIDEO_X11_NET_WM_PING"
@@ -224,13 +224,13 @@ extern "C" {
 #define SDL_HINT_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR "SDL_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR"
 
 /**
- *  \brief  A variable controlling whether the window frame and title bar are interactive when the cursor is hidden 
+ *  \brief  A variable controlling whether the hmi frame and title bar are interactive when the cursor is hidden 
  *
  *  This variable can be set to the following values:
- *    "0"       - The window frame is not interactive when the cursor is hidden (no move, resize, etc)
- *    "1"       - The window frame is interactive when the cursor is hidden
+ *    "0"       - The hmi frame is not interactive when the cursor is hidden (no move, resize, etc)
+ *    "1"       - The hmi frame is interactive when the cursor is hidden
  *
- *  By default SDL will allow interaction with the window frame when the cursor is hidden
+ *  By default SDL will allow interaction with the hmi frame when the cursor is hidden
  */
 #define SDL_HINT_WINDOW_FRAME_USABLE_WHILE_CURSOR_HIDDEN    "SDL_WINDOW_FRAME_USABLE_WHILE_CURSOR_HIDDEN"
 
@@ -244,8 +244,8 @@ extern "C" {
  *  \brief  A variable controlling whether the windows message loop is processed by SDL 
  *
  *  This variable can be set to the following values:
- *    "0"       - The window message loop is not run
- *    "1"       - The window message loop is processed in SDL_PumpEvents()
+ *    "0"       - The hmi message loop is not run
+ *    "1"       - The hmi message loop is processed in SDL_PumpEvents()
  *
  *  By default SDL will process the windows message loop
  */
@@ -294,13 +294,13 @@ extern "C" {
 #define SDL_HINT_MOUSE_RELATIVE_MODE_WARP    "SDL_MOUSE_RELATIVE_MODE_WARP"
 
 /**
- *  \brief Allow mouse click events when clicking to focus an SDL window
+ *  \brief Allow mouse click events when clicking to focus an SDL hmi
  *
  *  This variable can be set to the following values:
- *    "0"       - Ignore mouse clicks that activate a window
- *    "1"       - Generate events for mouse clicks that activate a window
+ *    "0"       - Ignore mouse clicks that activate a hmi
+ *    "1"       - Generate events for mouse clicks that activate a hmi
  *
- *  By default SDL will ignore mouse clicks that activate a window
+ *  By default SDL will ignore mouse clicks that activate a hmi
  */
 #define SDL_HINT_MOUSE_FOCUS_CLICKTHROUGH "SDL_MOUSE_FOCUS_CLICKTHROUGH"
 
@@ -578,7 +578,7 @@ extern "C" {
 
 
 /**
- *  \brief If set to "0" then never set the top most bit on a SDL Window, even if the video mode expects it.
+ *  \brief If set to "0" then never set the top most bit on a SDL ECSEngine, even if the video mode expects it.
  *      This is a debugging aid for developers and not expected to be used by end users. The default is "1"
  *
  *  This variable can be set to the following values:
@@ -612,7 +612,7 @@ extern "C" {
  *  gestures (e.g. events view, close/minimize gestures), the system needs to
  *  know in which orientation the application is currently drawing its contents.
  *
- *  This does not cause the window to be rotated or resized, the application
+ *  This does not cause the hmi to be rotated or resized, the application
  *  needs to take care of drawing the content in the right orientation (the
  *  framebuffer is always in portrait mode).
  *
@@ -622,7 +622,7 @@ extern "C" {
 #define SDL_HINT_QTWAYLAND_CONTENT_ORIENTATION "SDL_QTWAYLAND_CONTENT_ORIENTATION"
 
 /**
- *  \brief  Flags to set on QtWayland windows to integrate with the native window manager.
+ *  \brief  Flags to set on QtWayland windows to integrate with the native hmi manager.
  *
  *  On QtWayland platforms, this hint controls the flags to set on the windows.
  *  For example, on Sailfish OS "OverridesSystemGestures" disables swipe gestures.
@@ -685,7 +685,7 @@ extern "C" {
 *  1. Its pixel format will be set to the same pixel format as this SDL_Window.  This is
 *  needed for example when sharing an OpenGL context across multiple windows.
 *
-*  2. The flag SDL_WINDOW_OPENGL will be set on the new window so it can be used for
+*  2. The flag SDL_WINDOW_OPENGL will be set on the new hmi so it can be used for
 *  OpenGL rendering.
 *
 *  This variable can be set to the following values:
@@ -902,9 +902,9 @@ extern "C" {
  * This hint only applies to the emscripten platform
  *
  * The variable can be one of
- *    "#window"      - The javascript window object (this is the default)
+ *    "#hmi"      - The javascript hmi object (this is the default)
  *    "#document"    - The javascript document object
- *    "#screen"      - the javascript window.screen object
+ *    "#screen"      - the javascript hmi.screen object
  *    "#canvas"      - the WebGL canvas element
  *    any other string without a leading # sign applies to the element on the page with that ID.
  */
@@ -923,10 +923,10 @@ extern "C" {
 #define SDL_HINT_NO_SIGNAL_HANDLERS   "SDL_NO_SIGNAL_HANDLERS"
 
 /**
- *  \brief Tell SDL not to generate window-close events for Alt+F4 on Windows.
+ *  \brief Tell SDL not to generate hmi-close events for Alt+F4 on Windows.
  *
  * The variable can be set to the following values:
- *   "0"       - SDL will generate a window-close event when it sees Alt+F4.
+ *   "0"       - SDL will generate a hmi-close event when it sees Alt+F4.
  *   "1"       - SDL will only do normal key handling for Alt+F4.
  */
 #define SDL_HINT_WINDOWS_NO_CLOSE_ON_ALT_F4 "SDL_WINDOWS_NO_CLOSE_ON_ALT_F4"

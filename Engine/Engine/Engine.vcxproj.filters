@@ -21,7 +21,7 @@
     <ClInclude Include="..\include\DLL_Export.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine.h">
+    <ClInclude Include="EngineImpl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -29,7 +29,7 @@
     <ClCompile Include="ECSEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine.cpp">
+    <ClCompile Include="EngineImpl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
