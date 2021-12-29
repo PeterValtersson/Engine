@@ -15,9 +15,11 @@ namespace ECSEngine
 		Could_Not_Create_Window( std::string_view  what ) : Utilities::Exception( what ) {}
 	};
 
-	struct Resolution {
-		uint32_t width;
-		uint32_t height;
+	struct Rectangle {
+		uint32_t left;
+		uint32_t top;
+		uint32_t right;
+		uint32_t bottom;
 	};
 	enum class HMIType {
 		SDL,
@@ -27,7 +29,7 @@ namespace ECSEngine
 	struct InitializationInfo {
 		std::string windowTitle = "";
 		bool fullScreen = false;
-		Resolution resolution = { 1280, 720 };
+		Rectangle resolution = { 0, 0, 1280, 720 };
 		void* pNext = nullptr;
 	};
 	typedef uint32_t ActionButton; // Defined by the user.
@@ -303,7 +305,7 @@ namespace ECSEngine
 		/*
 		 * @brief Returns the resolution of the hmi.
 		 */
-		virtual Resolution GetResolution() const noexcept = 0;
+		virtual Rectangle GetRectangle() const noexcept = 0;
 
 
 		/*@TODO Add method to unregister a single callback. Needs operator== for delegates for that. (OR returning handles to the callback but that's cumbersome)*/

@@ -163,7 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\DLL_Export.h" />
-    <ClInclude Include="..\include\ECSEngine.h" />
+    <ClInclude Include="..\include\Engine.h" />
     <ClInclude Include="EngineImpl.h" />
   </ItemGroup>
   <ItemGroup>

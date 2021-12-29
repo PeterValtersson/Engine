@@ -47,7 +47,7 @@ namespace ECSEngine
 
 		virtual void SetWindowTitle( const std::string& title ) noexcept override;
 
-		virtual Resolution GetResolution() const noexcept override;
+		virtual Rectangle GetRectangle() const noexcept override;
 
 		virtual void MapActionButton( ActionButton actionButton, KeyCode key ) override;
 
