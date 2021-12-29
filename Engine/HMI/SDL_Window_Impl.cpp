@@ -9,7 +9,7 @@ ECSEngine::SDL_Window_Impl::SDL_Window_Impl( const InitializationInfo& init_info
 	if ( SDL_Init( SDL_INIT_VIDEO ) < 0 )
 		throw Could_Not_Create_Window( "Failed to initialize SDL subsystem" );
 	uint32_t createFlags = SDL_WINDOW_SHOWN | ( init_info.fullScreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0 );
-	hmi = SDL_CreateWindow( init_info.windowTitle.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, init_info.resolution.right - init_info.resolution.left, init_info.resolution.bottom - init_info.resolution.top, createFlags );
+	hmi = SDL_CreateWindow( init_info.windowTitle.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, init_info.resolution.width, init_info.resolution.height, createFlags );
 	if ( hmi == nullptr )
 		throw Could_Not_Create_Window( "Failed to create hmi." );
 
@@ -168,7 +168,7 @@ void ECSEngine::SDL_Window_Impl::SetWindowTitle( const std::string& title ) noex
 	SDL_SetWindowTitle( hmi, title.c_str() );
 }
 
-ECSEngine::Rectangle ECSEngine::SDL_Window_Impl::GetRectangle() const noexcept
+ECSEngine::Resolution ECSEngine::SDL_Window_Impl::GetResolution() const noexcept
 {
 	return init_info.resolution;
 }
@@ -181,24 +181,14 @@ void ECSEngine::SDL_Window_Impl::MapActionButton( ActionButton actionButton, Key
 void ECSEngine::SDL_Window_Impl::SetWindowInfo( const InitializationInfo& info )
 {
 	bool changed = false;
-	if ( init_info.resolution.right != info.resolution.right )
+	if ( init_info.resolution.height != info.resolution.height )
 	{
-		init_info.resolution.right = info.resolution.right;
+		init_info.resolution.height = info.resolution.height;
 		changed = true;
 	}
-	if ( init_info.resolution.bottom != info.resolution.bottom)
+	if ( init_info.resolution.width != info.resolution.width )
 	{
-		init_info.resolution.bottom = info.resolution.bottom;
-		changed = true;
-	}
-	if (init_info.resolution.left != info.resolution.left)
-	{
-		init_info.resolution.left = info.resolution.left;
-		changed = true;
-	}
-	if (init_info.resolution.top != info.resolution.top)
-	{
-		init_info.resolution.top = info.resolution.top;
+		init_info.resolution.width = info.resolution.width;
 		changed = true;
 	}
 	if ( init_info.fullScreen != info.fullScreen )
@@ -210,7 +200,7 @@ void ECSEngine::SDL_Window_Impl::SetWindowInfo( const InitializationInfo& info )
 
 	if ( changed == true && init_info.fullScreen == false )
 	{
-		SDL_SetWindowSize( hmi, init_info.resolution.right - init_info.resolution.left, init_info.resolution.bottom - init_info.resolution.top);
+		SDL_SetWindowSize( hmi, init_info.resolution.width, init_info.resolution.height );
 	}
 }
 

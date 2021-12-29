@@ -101,11 +101,8 @@ void ECSEngine::EngineImpl::init_window()
 void ECSEngine::EngineImpl::init_renderer()
 {
 	Renderer::RendererInitializationInfo ii;
-	auto res = sub_systems.hmi->GetRectangle();
-	ii.resolution.left = res.left;
-	ii.resolution.right = res.right;
-	ii.resolution.top = res.top;
-	ii.resolution.bottom = res.bottom;
+	auto res = sub_systems.hmi->GetResolution();
+	ii.resolution = *( Renderer::Resolution* )&res;
 	ii.windowHandle = sub_systems.hmi->GetWindowHandle();
 	sub_systems.renderer = Renderer::Renderer_Interface::Create_Renderer( Renderer::Renderer_Backend::DIRECTX11, ii );
 }
