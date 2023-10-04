@@ -1,11 +1,18 @@
 #include "EngineImpl.h"
 #include <Utilities/Profiler/Profiler.h>
-
+#include <Utilities/Console/Console.h>
 ECSEngine::EngineImpl::EngineImpl( const Init_Info& init_info ) : sub_systems( init_info.sub_systems ), entity_components( init_info.entity_components ), running( false )
 {
+	console = Utilities::create_cmd_console();
+	Utilities::set_console(console);
+	console->show();
 
+	Utilities::console_print("Initializing engine...");
 	init_sub_systems( init_info.mode );
 	init_managers();
+
+
+
 }
 
 ECSEngine::EngineImpl::~EngineImpl()
@@ -35,6 +42,7 @@ void ECSEngine::EngineImpl::start( bool threaded ) noexcept
 	else
 		while ( running )
 			frame();
+
 }
 
 ECSEngine::EntityComponents ECSEngine::EngineImpl::get_entity_components()
@@ -51,6 +59,7 @@ const std::vector<std::weak_ptr<ECS::ComponentReflection>> ECSEngine::EngineImpl
 {
 	std::vector<std::weak_ptr<ECS::ComponentReflection>> ret;
 	ret.push_back(entity_components.transform_component);
+	ret.push_back(entity_components.mesh_component);
 	return ret;
 }
 
@@ -67,6 +76,7 @@ void ECSEngine::EngineImpl::quit() noexcept
 
 void ECSEngine::EngineImpl::init_sub_systems( ResourceHandler::AccessMode mode )
 {
+	Utilities::console_print("Initializing sub systems...");
 	if ( !sub_systems.hmi )
 		init_window();
 	if ( !sub_systems.renderer )
@@ -80,6 +90,7 @@ void ECSEngine::EngineImpl::init_sub_systems( ResourceHandler::AccessMode mode )
 
 void ECSEngine::EngineImpl::init_managers()
 {
+	Utilities::console_print("Initializing managers...");
 	if ( !entity_components.entity_factory )
 		init_entity_manager();
 	if ( !entity_components.transform_component )
@@ -88,18 +99,22 @@ void ECSEngine::EngineImpl::init_managers()
 		init_property_manager();
 	if ( !entity_components.scene_component )
 		init_scene_manager();
-	if ( !entity_components.camera_component )
+	if (!entity_components.camera_component)
 		init_camera_manager();
+	if (!entity_components.mesh_component)
+		init_mesh_manager();
 
 }
 
 void ECSEngine::EngineImpl::init_window()
 {
+	Utilities::console_print("Initializing window...");
 	sub_systems.hmi = ECSEngine::HMI::create_window( ECSEngine::HMIType::SDL, {} );
 }
 
 void ECSEngine::EngineImpl::init_renderer()
 {
+	Utilities::console_print("Initializing renderer...");
 	Renderer::RendererInitializationInfo ii;
 	auto res = sub_systems.hmi->GetResolution();
 	ii.resolution = *( Renderer::Resolution* )&res;
@@ -109,17 +124,20 @@ void ECSEngine::EngineImpl::init_renderer()
 
 void ECSEngine::EngineImpl::init_resource_archive( ResourceHandler::AccessMode mode )
 {
+	Utilities::console_print("Initializing resource archive...");
 	sub_systems.resource_archive = ResourceHandler::IResourceArchive::create_binary_archive( "data.dat", mode );
 }
 
 void ECSEngine::EngineImpl::init_resource_handler( ResourceHandler::AccessMode mode )
 {
+	Utilities::console_print("Initializing resource handler...");
 	sub_systems.resource_handler = ResourceHandler::IResourceHandler::create( mode, sub_systems.resource_archive );
 	ResourceHandler::IResourceHandler::set( sub_systems.resource_handler );
 }
 
 void ECSEngine::EngineImpl::init_entity_manager()
 {
+	Utilities::console_print("Initializing entity manager...");
 	entity_components.entity_factory = ECS::EntityFactory::create_factory();
 }
 
@@ -140,5 +158,11 @@ void ECSEngine::EngineImpl::init_scene_manager()
 
 void ECSEngine::EngineImpl::init_camera_manager()
 {
-	entity_components.camera_component = ECS::EntityComponentFactory::create_viewpoint_component( { entity_components.entity_factory, entity_components.transform_component } );
+	entity_components.camera_component = ECS::EntityComponentFactory::create_viewpoint_component({ entity_components.entity_factory, entity_components.transform_component });
+}
+
+void ECSEngine::EngineImpl::init_mesh_manager()
+{
+	Utilities::console_print("Initializing mesh manager...");
+	entity_components.mesh_component = ECS::EntityComponentFactory::create_mesh_component({sub_systems.renderer, entity_components.entity_factory, entity_components.transform_component });
 }

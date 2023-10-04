@@ -1,6 +1,7 @@
 #pragma once
 #include <Engine.h>
 #include <thread>
+#include <Utilities/Console/Console.h>
 
 namespace ECSEngine
 {
@@ -33,8 +34,9 @@ namespace ECSEngine
 		void init_property_manager();
 		void init_scene_manager();
 		void init_camera_manager();
+		void init_mesh_manager();
 	private:
-
+		std::shared_ptr<Utilities::Console> console;
 		Sub_Systems sub_systems;
 		EntityComponents entity_components;
 

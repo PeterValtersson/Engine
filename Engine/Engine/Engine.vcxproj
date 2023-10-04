@@ -179,6 +179,9 @@
     <ProjectReference Include="..\..\..\Resource-Handler\ResourceHandler\ResourceHandler\ResourceHandler.vcxproj">
       <Project>{bed7b51d-7499-4f9e-a74f-3d66d316dbab}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Utilities\Utilities\DeveloperConsole\DeveloperConsole.vcxproj">
+      <Project>{d7351e83-14ab-4cf0-9323-35f85179e939}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Utilities\Utilities\Profiler\Profiler.vcxproj">
       <Project>{bae4cf46-4926-4052-a0b5-290947489c07}</Project>
     </ProjectReference>

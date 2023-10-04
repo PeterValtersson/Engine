@@ -21,6 +21,7 @@ namespace ECSEngine
 		std::shared_ptr<ECS::PropertyComponent> property_component;
 		std::shared_ptr<ECS::SceneComponent> scene_component;
 		std::shared_ptr<ECS::ViewpointComponent> camera_component;
+		std::shared_ptr<ECS::MeshComponent> mesh_component;
 
 	};
 	struct Init_Info {
